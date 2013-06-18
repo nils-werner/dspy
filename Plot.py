@@ -29,5 +29,6 @@ def show():
 	plt.subplots_adjust(left=0.04, bottom=0.05, right=0.98, top=0.96)
 	plt.show()
 
-def save(filename):
-	plt.savefig(filename, bbox_inches=0)
+def save(fig, filename):
+	fig.set_size_inches(16, 9)
+	plt.savefig(filename, bbox_inches='tight', dpi=100)
