@@ -10,11 +10,13 @@ def burg(corr, order):
 	coeffs, energy, reflectioncoeffs = spectrum.arburg(corr, order)
 
 	# These values are pure speculation
-	# The regular `energy /= corr[0]` looked like the un-weighted energy from levinson, hence the ^2.
-	energy /= corr[0]**2;
-	# The lower end of values looked correct, the upper end never got higher than 0.3, so... stretch
-	energy *= 350
-	# Make sure we don't get weird values above 1
+	energy /= corr[0];
+	# After this step, the curve looked like the one from levinson BEFORE THIS STEP.
+	# This means we need to divide energy by it again. Also, the values are much much lower
+	# than from levinson, the proportions are almost exactly the same. Ergo: multiply by the
+	# ratio between them.
+	energy *= (18600 / 42)
+	energy /= corr[0];
 	energy = min(energy, 1)
 
 	return (coeffs,energy)
