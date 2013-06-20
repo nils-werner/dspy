@@ -11,3 +11,6 @@ def medianlimiter(x, size=10):
 		med = numpy.median(numpy.abs(tmp[i:i+size]))
 		x[i] = x[i] / numpy.abs(x[i]) * min(numpy.abs(x[i]), med)
 	return x
+
+def quadraticdiff(a, b):
+	return numpy.sum((a - b)**2)
