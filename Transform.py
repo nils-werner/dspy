@@ -17,3 +17,17 @@ def istft(x, windowed=True, halved=True):
 		return scipy.real(scipy.ifft(Window.window(x)))
 	else:
 		return scipy.real(scipy.ifft(x))
+
+def slidingwindow(x, size=11, padded=True):
+	if(size%2 == 0):
+		size += 1
+	halfsize = numpy.floor(size/2)
+	if(padded == True):
+		tmp = numpy.hstack(( x[halfsize-1::-1], x, x[:-halfsize-1:-1]))
+	else:
+		tmp = x
+
+	strides = (tmp.itemsize, tmp.itemsize)
+	shape = (1 + (tmp.nbytes - size*tmp.itemsize)/strides[0], size)
+
+	return numpy.lib.stride_tricks.as_strided(tmp, shape=shape, strides=strides)
