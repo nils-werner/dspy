@@ -4,13 +4,16 @@ def autocorr(x):
 	result = numpy.correlate(x, x, mode='full')
 	return result[result.size/2:]
 
-def medianlimiter(x, size=10):
+def medianlimiter(x, size=11):
+	if(size%2 == 0):
+		size += 1
 	halfsize = numpy.floor(size/2)
-	tmp = numpy.hstack(( x[halfsize+1::-1], x, x[:-halfsize-1:-1]))
-	for i in range(0, len(x)):
-		med = numpy.median(numpy.abs(tmp[i:i+size]))
-		x[i] = x[i] / numpy.abs(x[i]) * min(numpy.abs(x[i]), med)
-	return x
+	tmp = numpy.hstack(( x[halfsize-1::-1], x, x[:-halfsize-1:-1]))
+
+	strides = (tmp.itemsize, tmp.itemsize)
+	shape = (1 + (tmp.nbytes - size*tmp.itemsize)/strides[0], size)
+
+	return numpy.minimum(x, numpy.median(numpy.lib.stride_tricks.as_strided(tmp, shape=shape, strides=strides), axis=1))
 
 def quadraticdiff(a, b):
 	return numpy.sum((a - b)**2)
