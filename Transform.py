@@ -14,7 +14,7 @@ def istft(x, windowed=True, halved=True):
 	if(halved):
 		x = numpy.hstack((x, x[-2:0:-1].conjugate()))
 	if(windowed):
-		return scipy.real(scipy.ifft(Window.window(x)))
+		return scipy.real(Window.window(scipy.ifft(x)))
 	else:
 		return scipy.real(scipy.ifft(x))
 
