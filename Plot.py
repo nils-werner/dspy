@@ -5,7 +5,9 @@ from matplotlib.colors import LogNorm
 def figure():
 	return plt.figure()
 
-def img(sig, fig, subplot=None, vmin=None, vmax=None):
+def img(sig, fig=None, subplot=None, vmin=None, vmax=None):
+	if(fig == None):
+		fig = figure()
 	if(subplot != None):
 		ax = fig.add_subplot(subplot)
 	else:
@@ -15,7 +17,9 @@ def img(sig, fig, subplot=None, vmin=None, vmax=None):
 	ax.set_ylabel('Frequency')
 	return ax
 
-def plot(sig, fig, subplot=None):
+def plot(sig, fig=None, subplot=None):
+	if(fig == None):
+		fig = figure()
 	if(subplot != None):
 		ax = fig.add_subplot(subplot)
 	else:
