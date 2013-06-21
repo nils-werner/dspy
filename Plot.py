@@ -6,14 +6,14 @@ class Figure():
 	def __init__(self):
 		self.fig = plt.figure()
 
-	def img(self, sig, subplot=None, vmin=None, vmax=None):
+	def img(self, sig, subplot=111, vmin=None, vmax=None):
 		ax = self.fig.add_subplot(subplot)
 		ax.imshow(scipy.absolute(sig), norm=LogNorm(), vmin=vmin, vmax=vmax, origin='lower', aspect='auto', interpolation='nearest')
 		ax.set_xlabel('Time')
 		ax.set_ylabel('Frequency')
 		return ax
 
-	def plot(self, sig, subplot=None):
+	def plot(self, sig, subplot=111):
 		ax = self.fig.add_subplot(subplot)
 		ax.plot(scipy.absolute(sig))
 		ax.set_xlabel('Time')
