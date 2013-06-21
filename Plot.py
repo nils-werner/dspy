@@ -2,37 +2,28 @@ import scipy
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 
-def figure():
-	return plt.figure()
+class Figure():
+	def __init__(self):
+		self.fig = plt.figure()
 
-def img(sig, fig=None, subplot=None, vmin=None, vmax=None):
-	if(fig == None):
-		fig = figure()
-	if(subplot != None):
-		ax = fig.add_subplot(subplot)
-	else:
-		ax = fig
-	ax.imshow(scipy.absolute(sig), norm=LogNorm(), vmin=vmin, vmax=vmax, origin='lower', aspect='auto', interpolation='nearest')
-	ax.set_xlabel('Time')
-	ax.set_ylabel('Frequency')
-	return ax
+	def img(self, sig, subplot=None, vmin=None, vmax=None):
+		ax = self.fig.add_subplot(subplot)
+		ax.imshow(scipy.absolute(sig), norm=LogNorm(), vmin=vmin, vmax=vmax, origin='lower', aspect='auto', interpolation='nearest')
+		ax.set_xlabel('Time')
+		ax.set_ylabel('Frequency')
+		return ax
 
-def plot(sig, fig=None, subplot=None):
-	if(fig == None):
-		fig = figure()
-	if(subplot != None):
-		ax = fig.add_subplot(subplot)
-	else:
-		ax = fig
-	ax.plot(scipy.absolute(sig))
-	ax.set_xlabel('Time')
-	ax.set_ylabel('Amplitude')
-	return ax
+	def plot(self, sig, subplot=None):
+		ax = self.fig.add_subplot(subplot)
+		ax.plot(scipy.absolute(sig))
+		ax.set_xlabel('Time')
+		ax.set_ylabel('Amplitude')
+		return ax
 
-def show():
-	plt.subplots_adjust(left=0.04, bottom=0.05, right=0.98, top=0.96)
-	plt.show()
+	def show(self):
+		plt.subplots_adjust(left=0.04, bottom=0.05, right=0.98, top=0.96)
+		plt.show()
 
-def save(fig, filename):
-	fig.set_size_inches(16, 9)
-	plt.savefig(filename, bbox_inches='tight', dpi=100)
+	def save(self, filename):
+		self.fig.set_size_inches(16, 9)
+		plt.savefig(filename, bbox_inches='tight', dpi=100)
