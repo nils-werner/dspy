@@ -7,13 +7,8 @@ def wavread(filename):
 		warnings.simplefilter("ignore")
 		fs,x = wav.read(filename)
 	maxv = numpy.iinfo(x.dtype).max
-	x = x.astype('float')
-	x = x / maxv
-	return (fs,x)
+	return (fs,x.astype('float') / maxv)
 
 def wavwrite(filename, fs, x):
 	maxv = numpy.iinfo(numpy.int16).max
-	x /= numpy.max(numpy.abs(x),axis=0);
-	x *= maxv;
-	x = x.astype('int16')
-	wav.write(filename, fs, x)
+	wav.write(filename, fs, (x * maxv).astype('int16'))
