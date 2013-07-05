@@ -10,8 +10,8 @@ def defaultopts(parser):
     parser.add_argument('--overlap', type=powof2, default=2, metavar="FRAMELENGTH/X", help="Set relative FFT frame overlap")
 
     parser.add_argument('-o', '--original', metavar="FILENAME", help="Save original signal to file")
-    parser.add_argument('-p', '--prediction', metavar="FILENAME", help="Save predicted signal to file")
-    parser.add_argument('-e', '--error', metavar="FILENAME", help="Save error signal to file")
+    parser.add_argument('-e', '--harmonic', metavar="FILENAME", help="Save harmonic signal to file")
+    parser.add_argument('-p', '--percussive', metavar="FILENAME", help="Save percussive signal to file")
 
 def powof2(arg):
     num = int(arg)
