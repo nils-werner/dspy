@@ -20,12 +20,12 @@ def istft(x, windowed=True, halved=True):
 
 
 
-def spectrogram(x, framelength=1024, hoplength=2, windowed=True, halved=True):
+def spectrogram(x, framelength=1024, overlap=2, windowed=True, halved=True):
 
-    values = list(enumerate(range(0, len(x)-framelength, framelength//hoplength)))
+    values = list(enumerate(range(0, len(x)-framelength, framelength//overlap)))
     for j,i in values:
         # Fourier Transform the signal, windowed and unwindowed
-        sig = stft(x[i:i+framelength], windowed=windowed, halved=halved) / (hoplength//2)
+        sig = stft(x[i:i+framelength], windowed=windowed, halved=halved) / (overlap//2)
 
         if(i == 0):
             output = numpy.zeros((len(values), sig.shape[0]), dtype=sig.dtype)
@@ -34,7 +34,7 @@ def spectrogram(x, framelength=1024, hoplength=2, windowed=True, halved=True):
 
     return output
 
-def ispectrogram(x, framelength=1024, hoplength=2, windowed=True, halved=True):
+def ispectrogram(x, framelength=1024, overlap=2, windowed=True, halved=True):
 
     i = 0
     values = range(0, x.shape[0])
@@ -42,11 +42,11 @@ def ispectrogram(x, framelength=1024, hoplength=2, windowed=True, halved=True):
         sig = istft(x[j,:], windowed=windowed, halved=halved)
 
         if(i == 0):
-            output = numpy.zeros(framelength + (len(values) - 1) * framelength//hoplength, dtype=sig.dtype)
+            output = numpy.zeros(framelength + (len(values) - 1) * framelength//overlap, dtype=sig.dtype)
 
         output[i:i+framelength] += sig
 
-        i += framelength//hoplength
+        i += framelength//overlap
 
     return output
 

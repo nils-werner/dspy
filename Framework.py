@@ -18,7 +18,7 @@ class Framework(object):
         parser.add_argument('-d', '--figure', metavar="FILENAME", help="Save figure to file")
 
         parser.add_argument('-f', '--framelength', type=Utils.powof2, default=1024, metavar="SAMPLES", help="Set FFT framelength")
-        parser.add_argument('--hopsize', type=Utils.powof2, default=2, metavar="FRAMELENGTH/X", help="Set relative FFT frame hopsize")
+        parser.add_argument('--overlap', type=Utils.powof2, default=2, metavar="FRAMELENGTH/X", help="Set relative FFT frame overlap")
 
         parser.add_argument('-o', '--original', metavar="FILENAME", help="Save original signal to file")
         parser.add_argument('-p', '--prediction', metavar="FILENAME", help="Save predicted signal to file")
