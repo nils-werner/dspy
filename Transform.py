@@ -42,7 +42,7 @@ def ispectrogram(x, framelength=1024, hoplength=2, windowed=True, halved=True):
         sig = istft(x[j,:], windowed=windowed, halved=halved)
 
         if(i == 0):
-            output = numpy.zeros((len(values)//hoplength + 1) * framelength, dtype=sig.dtype)
+            output = numpy.zeros(framelength + (len(values) - 1) * framelength//hoplength, dtype=sig.dtype)
 
         output[i:i+framelength] += sig
 
