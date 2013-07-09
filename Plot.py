@@ -6,26 +6,41 @@ class Figure():
     def __init__(self):
         self.fig = plt.figure()
 
-    def img(self, sig, subplot=111, vmin=None, vmax=None):
+    def img(self, sig, subplot=111, **kwargs):
+        kwargs.setdefault('vmin', 0.0001)
+        kwargs.setdefault('vmax', len(sig))
+        kwargs.setdefault('norm', LogNorm())
+        kwargs.setdefault('origin', 'lower')
+        kwargs.setdefault('aspect', 'auto')
+        kwargs.setdefault('interpolation', 'nearest')
+
         ax = self.fig.add_subplot(subplot)
-        ax.imshow(scipy.absolute(sig), norm=LogNorm(), vmin=vmin, vmax=vmax, origin='lower', aspect='auto', interpolation='nearest')
+        ax.imshow(scipy.absolute(sig), **kwargs)
         ax.axis('tight')
         ax.set_xlabel('Time')
         ax.set_ylabel('Frequency')
         return ax
 
-    def plot(self, sig, subplot=111):
+    def plot(self, sig, subplot=111, **kwargs):
         ax = self.fig.add_subplot(subplot)
-        ax.plot(scipy.absolute(sig))
+        ax.plot(scipy.absolute(sig), **kwargs)
         ax.axis('tight')
         ax.set_xlabel('Time')
         ax.set_ylabel('Amplitude')
         return ax
 
-    def show(self):
-        plt.subplots_adjust(left=0.04, bottom=0.05, right=0.98, top=0.96)
+    def show(self, **kwargs):
+        kwargs.setdefault('left', 0.04)
+        kwargs.setdefault('bottom', 0.05)
+        kwargs.setdefault('right', 0.98)
+        kwargs.setdefault('top', 0.96)
+
+        plt.subplots_adjust(**kwargs)
         plt.show()
 
-    def save(self, filename):
+    def save(self, filename, **kwargs):
+        kwargs.setdefault('bbox_inches', 'tight')
+        kwargs.setdefault('dpi', 100)
+
         self.fig.set_size_inches(16, 9)
-        plt.savefig(filename, bbox_inches='tight', dpi=100)
+        plt.savefig(filename, **kwargs)
