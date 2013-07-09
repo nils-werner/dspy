@@ -1,7 +1,9 @@
 import numpy
 
-def autocorr(x):
-    result = numpy.correlate(x, x, mode='full')
+def autocorr(x, **kwargs):
+    kwargs.setdefault('mode', 'full')
+
+    result = numpy.correlate(x, x, **kwargs)
     return result[result.size/2:]
 
 def quadraticdiff(a, b):
