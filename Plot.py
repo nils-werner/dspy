@@ -9,6 +9,7 @@ class Figure():
     def img(self, sig, subplot=111, vmin=None, vmax=None):
         ax = self.fig.add_subplot(subplot)
         ax.imshow(scipy.absolute(sig), norm=LogNorm(), vmin=vmin, vmax=vmax, origin='lower', aspect='auto', interpolation='nearest')
+        ax.axis('tight')
         ax.set_xlabel('Time')
         ax.set_ylabel('Frequency')
         return ax
@@ -16,6 +17,7 @@ class Figure():
     def plot(self, sig, subplot=111):
         ax = self.fig.add_subplot(subplot)
         ax.plot(scipy.absolute(sig))
+        ax.axis('tight')
         ax.set_xlabel('Time')
         ax.set_ylabel('Amplitude')
         return ax
