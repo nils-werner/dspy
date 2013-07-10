@@ -111,7 +111,7 @@ class Figure():
 
         """
         ax = self.fig.add_subplot(subplot)
-        ax.plot(scipy.absolute(sig), **kwargs)
+        ax.plot(scipy.real(sig), **kwargs)
         ax.axis('tight')
         ax.set_xlabel('Time')
         ax.set_ylabel('Amplitude')
