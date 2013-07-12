@@ -15,6 +15,12 @@ Functions
 import Window
 import scipy, numpy
 
+def ftfrequencies(data, rate, halved=True):
+    if(halved):
+        return numpy.arange(0,data.size/2+1) * rate/data.size
+    else:
+        return numpy.hstack((numpy.arange(0,data.size/2+1), numpy.arange(data.size/2+1,0,-1))) * rate/data.size
+
 def stft(data, windowed=True, halved=True):
     """
     Calculate the short time fourier transform of a signal

@@ -55,3 +55,20 @@ def test_spectrogram_identity():
 def test_slidingwindow():
     outsig = numpy.random.uniform(0, 1, 1024)
     Transform.slidingwindow(outsig)
+
+
+def test_ftfrequencies():
+    fs,original = File.wavread('../wav/cv.wav')
+
+    output = Transform.ftfrequencies(original, fs)
+
+    assert(output[0] == 0)
+    assert(output[-1] == fs/2)
+
+def test_ftfrequencies_short():
+    fs,original = File.wavread('../wav/cv.wav')
+
+    output = Transform.ftfrequencies(original[0:256], fs)
+
+    assert(output[0] == 0)
+    assert(output[-1] == fs/2)
