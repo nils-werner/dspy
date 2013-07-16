@@ -36,7 +36,8 @@ def teager(x):
 
     References
     ----------
-    .. [1] @TODO
+    .. [1] J. F. Kaiser, "On a simple algorithm to calculate the 'energy' of
+           a signal", IEEE (1990).
 
     """
     e = x[1:-1]**2 - x[2:]*x[:-2]
@@ -66,7 +67,8 @@ def frequency(x):
 
     References
     ----------
-    .. [1] @TODO
+    .. [1] Y. Litvin et al., "Monoaural speech/music source separation using
+           discrete energy separation algorithm", Signal Processing 90 (2010).
 
     """
     return numpy.arccos( 1 - ( teager(x[2:]-x[:-2]) / 2*teager(x[1:-1]) ) ) / 2
@@ -95,7 +97,8 @@ def amplitude(x):
 
     References
     ----------
-    .. [1] @TODO
+    .. [2] Y. Litvin et al., "Monoaural speech/music source separation using
+           discrete energy separation algorithm", Signal Processing 90 (2010).
 
     """
     return 2*teager(x[1:-1]) / numpy.sqrt(teager(x[2:]-x[:-2]))
