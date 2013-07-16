@@ -1,6 +1,25 @@
+"""
+Module for several utility methods
+
+Functions
+---------
+`defaultopts`: Attaches regularily used command line options to an ArgParser instance
+
+`powof2`: Checks if a number is a power of two
+
+"""
 import argparse
 
 def defaultopts(parser):
+    """
+    Attach regularily used command line options to an ArgParser instance
+
+    Parameters
+    ----------
+    parser : ArgParser instance
+        The ArgParser instance to add the arguments to
+
+    """
     parser.add_argument('filename', help='The audio file to be processed')
     parser.add_argument('-n', action="store_false", help="Disable graph output", dest="display")
     parser.add_argument('-d', '--figure', metavar="FILENAME", help="Save figure to file")
@@ -14,6 +33,25 @@ def defaultopts(parser):
     parser.add_argument('-p', '--percussive', metavar="FILENAME", help="Save percussive signal to file")
 
 def powof2(arg):
+    """
+    Check if a number is a power of two
+
+    Parameters
+    ----------
+    num : int
+        The number to be checked
+
+    Returns
+    -------
+    num : int
+        The number to be checked
+
+    Notes
+    -----
+
+     * Raises an argparse.ArgumentTypeError when the number is not a power of two.
+
+    """
     num = int(arg)
     if(not(num != 0 and ((num & (num - 1)) == 0))):
         raise argparse.ArgumentTypeError("%r is not a power of two" % num)
