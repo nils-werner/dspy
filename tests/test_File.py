@@ -1,6 +1,7 @@
 import sys
 sys.path.append('..')
 
+import tempfile
 import os
 from lib import File
 import scipy, numpy
@@ -16,9 +17,14 @@ def test_wavread_range():
 def test_wavwrite_read():
     outfs = 44100
     outsig = numpy.random.uniform(0, 1, 1024)
-    File.wavwrite('./test.wav', outfs, outsig)
-    infs,insig = File.wavread('./test.wav')
-    os.remove('./test.wav')
+    try:
+        fd, tmpfile = tempfile.mkstemp(suffix='.wav')
+        os.close(fd)
+        File.wavwrite(tmpfile, outfs, outsig)
+        assert os.path.exists(tmpfile)
+        infs,insig = File.wavread(tmpfile)
+    finally:
+        os.remove(tmpfile)
 
     assert outfs == infs
     assert numpy.allclose(outsig, insig, rtol=1e-04, atol=1e-04)
