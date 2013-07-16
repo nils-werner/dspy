@@ -22,7 +22,7 @@ def noalsaerr():
 def play(sig, rate=44100):
     with noalsaerr():
         p = pyaudio.PyAudio()
-    stream = p.open(format=pyaudio.paFloat32, channels=1, rate=44100, output=1)
-    stream.write(sig.astype(numpy.float32).tostring())
+    stream = p.open(format=pyaudio.paFloat32, channels=sig.shape[0], rate=44100, output=1)
+    stream.write(numpy.reshape(sig.T, (1,-1)).astype(numpy.float32).tostring())
     stream.close()
     p.terminate()
