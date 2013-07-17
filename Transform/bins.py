@@ -1,13 +1,62 @@
 import scipy, numpy
 
-def extent(data, rate, halved=True):
+def extent(framelength, rate, halved=True):
+    """
+    Calculate a vector containing the frequencies for the bins of an
+    fft transform for a certain framelength
+
+    Parameters
+    ----------
+    framelength : int
+        Desired framelength
+    rate : int
+        Signal sampling rate
+
+    Returns
+    -------
+    data : numpy array
+        The frequencies for each bin of an fft transform
+
+    """
     if(halved):
-        return numpy.arange(0,data.size/2+1) * rate/data.size
+        return numpy.arange(0,framelength/2+1) * rate/framelength
     else:
-        return numpy.hstack((numpy.arange(0,data.size/2+1), numpy.arange(data.size/2+1,0,-1))) * rate/data.size
+        return numpy.hstack((numpy.arange(0,framelength/2+1), numpy.arange(framelength/2+1,0,-1))) * rate/framelength
 
 def frequency(frequency, rate):
-    return float(rate)/float(frequency)
+    """
+    Calculate the framelength required for a certain frequency bin width
+
+    Parameters
+    ----------
+    frequency : int
+        Desired binwidth
+    rate : int
+        Signal sampling rate
+
+    Returns
+    -------
+    framelength : int
+        The resulting framelength
+
+    """
+    return rate/frequency
 
 def number(number, rate):
-    return bin_frequency((rate//2)/number, rate)
+    """
+    Calculate the framelength required for a certain number of frequency bins
+
+    Parameters
+    ----------
+    number : int
+        Desired number of bins
+    rate : int
+        Signal sampling rate
+
+    Returns
+    -------
+    framelength : int
+        The resulting framelength
+
+    """
+    return frequency((rate//2)/number, rate)
