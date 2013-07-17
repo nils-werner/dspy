@@ -31,13 +31,13 @@ def noalsaerr():
     yield
     asound.snd_lib_error_set_handler(None)
 
-def play(sig, rate=44100):
+def play(data, rate=44100):
     """
     Play a signal.
 
     Parameters
     ----------
-    sig : numpy array
+    data : numpy array
         Input signal.
     rate : int
         Sampling rate. Defaults to 44100.
@@ -52,7 +52,7 @@ def play(sig, rate=44100):
     """
     with noalsaerr():
         p = pyaudio.PyAudio()
-    stream = p.open(format=pyaudio.paFloat32, channels=sig.shape[0], rate=rate, output=1)
-    stream.write(numpy.reshape(sig.T, (1,-1)).astype(numpy.float32).tostring())
+    stream = p.open(format=pyaudio.paFloat32, channels=data.shape[0], rate=rate, output=1)
+    stream.write(numpy.reshape(data.T, (1,-1)).astype(numpy.float32).tostring())
     stream.close()
     p.terminate()

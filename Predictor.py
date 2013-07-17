@@ -13,14 +13,14 @@ Functions
 import spectrum
 import scipy, numpy
 
-def levinson(corr, order):
+def levinson(correlation, order):
     """
     Calculate the predictor coefficients for an autoregressive linear prediction
     using the Levinson-Durbin algorithm
 
     Parameters
     ----------
-    corr : numpy array
+    correlation : numpy array
         The autocorrelation function of a signal.
     order : int
         The order of the prediction.
@@ -39,18 +39,18 @@ def levinson(corr, order):
     * The first coefficient, 1, is left out.
 
     """
-    coeffs, energy, reflectioncoeffs = spectrum.LEVINSON(corr, order)
-    energy /= corr[0];
+    coeffs, energy, reflectioncoeffs = spectrum.LEVINSON(correlation, order)
+    energy /= correlation[0];
     return (coeffs,energy)
 
-def burg(corr, order):
+def burg(correlation, order):
     """
     Calculate the predictor coefficients for an autoregressive linear prediction
     using the Burg algorithm
 
     Parameters
     ----------
-    corr : numpy array
+    correlation : numpy array
         The autocorrelation function of a signal.
     order : int
         The order of the prediction.
@@ -69,28 +69,28 @@ def burg(corr, order):
     * The first coefficient, 1, is left out.
 
     """
-    coeffs, energy, reflectioncoeffs = spectrum.arburg(corr, order)
+    coeffs, energy, reflectioncoeffs = spectrum.arburg(correlation, order)
 
     # These values are pure speculation
-    energy /= corr[0];
+    energy /= correlation[0];
     # After this step, the curve looked like the one from levinson BEFORE THIS STEP.
     # This means we need to divide energy by it again. Also, the values are much much lower
     # than from levinson, the proportions are almost exactly the same. Ergo: multiply by the
     # ratio between them.
     energy *= (18600 / 42)
-    energy /= corr[0];
+    energy /= correlation[0];
     energy = min(energy, 1)
 
     return (coeffs,energy)
 
-def predict(sig, coeffs):
+def predict(data, coeffs):
     """
     Calculate the an autoregressive linear prediction given the signal
     and the prediction coefficients.
 
     Parameters
     ----------
-    sig : numpy array
+    data : numpy array
         The signal.
     coeffs : numpy array
         The prediction coefficients.
@@ -129,11 +129,11 @@ def predict(sig, coeffs):
 
     """
     coeffs *= -1;
-    pred = scipy.zeros_like(sig)
-    tmp = numpy.hstack(( scipy.zeros_like(coeffs), sig ))
+    pred = scipy.zeros_like(data)
+    tmp = numpy.hstack(( scipy.zeros_like(coeffs), data ))
 
     for j in range(0, coeffs.size):
         offset = coeffs.size - j - 1
         pred = pred + coeffs[j] * tmp[offset:offset + len(pred)];
 
-    return pred[:len(sig)]
+    return pred[:len(data)]

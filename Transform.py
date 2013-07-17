@@ -15,13 +15,13 @@ Functions
 import Window
 import scipy, numpy
 
-def stft(x, windowed=True, halved=True):
+def stft(data, windowed=True, halved=True):
     """
     Calculate the short time fourier transform of a signal
 
     Parameters
     ----------
-    signal : numpy array
+    data : numpy array
         The signal to be calculated.
     windowed : boolean
         Switch for turning on signal windowing. Defaults to True.
@@ -38,20 +38,20 @@ def stft(x, windowed=True, halved=True):
 
     """
     if(windowed):
-        result = scipy.fft(Window.window(x))
+        result = scipy.fft(Window.window(data))
     else:
-        result = scipy.fft(x)
+        result = scipy.fft(data)
     if(halved):
         result = result[0:result.size/2+1]
     return result
 
-def istft(x, windowed=True, halved=True):
+def istft(data, windowed=True, halved=True):
     """
     Calculate the inverse short time fourier transform of a spectrum
 
     Parameters
     ----------
-    signal : numpy array
+    data : numpy array
         The spectrum to be calculated.
     windowed : boolean
         Switch for turning on signal windowing. Defaults to True.
@@ -68,20 +68,20 @@ def istft(x, windowed=True, halved=True):
 
     """
     if(halved):
-        x = numpy.hstack((x, x[-2:0:-1].conjugate()))
+        data = numpy.hstack((data, data[-2:0:-1].conjugate()))
     if(windowed):
-        return scipy.real(Window.window(scipy.ifft(x)))
+        return scipy.real(Window.window(scipy.ifft(data)))
     else:
-        return scipy.real(scipy.ifft(x))
+        return scipy.real(scipy.ifft(data))
 
 
-def spectrogram(x, framelength=1024, overlap=2, **kwargs):
+def spectrogram(data, framelength=1024, overlap=2, **kwargs):
     """
     Calculate the spectrogram of a signal
 
     Parameters
     ----------
-    signal : numpy array
+    data : numpy array
         The signal to be calculated.
     framelength : int
         The signal frame length. Defaults to 1024.
@@ -102,9 +102,9 @@ def spectrogram(x, framelength=1024, overlap=2, **kwargs):
         The spectrogram
 
     """
-    values = list(enumerate(range(0, len(x)-framelength, framelength//overlap)))
+    values = list(enumerate(range(0, len(data)-framelength, framelength//overlap)))
     for j,i in values:
-        sig = stft(x[i:i+framelength], **kwargs) / (overlap//2)
+        sig = stft(data[i:i+framelength], **kwargs) / (overlap//2)
 
         if(i == 0):
             output = numpy.zeros((len(values), sig.shape[0]), dtype=sig.dtype)
@@ -113,13 +113,13 @@ def spectrogram(x, framelength=1024, overlap=2, **kwargs):
 
     return output
 
-def ispectrogram(x, framelength=1024, overlap=2, **kwargs):
+def ispectrogram(data, framelength=1024, overlap=2, **kwargs):
     """
     Calculate the inverse spectrogram of a signal
 
     Parameters
     ----------
-    signal : numpy array
+    data : numpy array
         The spectrogram to be calculated.
     framelength : int
         The signal frame length. Defaults to 1024.
@@ -141,9 +141,9 @@ def ispectrogram(x, framelength=1024, overlap=2, **kwargs):
 
     """
     i = 0
-    values = range(0, x.shape[0])
+    values = range(0, data.shape[0])
     for j in values:
-        sig = istft(x[j,:], **kwargs)
+        sig = istft(data[j,:], **kwargs)
 
         if(i == 0):
             output = numpy.zeros(framelength + (len(values) - 1) * framelength//overlap, dtype=sig.dtype)
@@ -155,13 +155,13 @@ def ispectrogram(x, framelength=1024, overlap=2, **kwargs):
     return output
 
 
-def slidingwindow(x, size=11, padded=True):
+def slidingwindow(data, size=11, padded=True):
     """
     Calculate a sliding window over a signal
 
     Parameters
     ----------
-    signal : numpy array
+    data : numpy array
         The spectrogram to be calculated.
     size : int
         The sliding window size
@@ -190,9 +190,9 @@ def slidingwindow(x, size=11, padded=True):
         size += 1
     halfsize = numpy.floor(size/2)
     if(padded == True):
-        tmp = numpy.hstack(( x[halfsize-1::-1], x, x[:-halfsize-1:-1]))
+        tmp = numpy.hstack(( data[halfsize-1::-1], data, data[:-halfsize-1:-1]))
     else:
-        tmp = x
+        tmp = data
 
     strides = (tmp.itemsize, tmp.itemsize)
     shape = (1 + (tmp.nbytes - size*tmp.itemsize)/strides[0], size)

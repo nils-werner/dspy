@@ -12,7 +12,7 @@ import scipy.signal
 import numpy
 import Transform
 
-def lowpass(x, cutoff, fs, coeffs=61, window='hanning'):
+def lowpass(data, cutoff, fs, coeffs=61, window='hanning'):
     """
     Filter a signal with a lowpass
 
@@ -36,9 +36,9 @@ def lowpass(x, cutoff, fs, coeffs=61, window='hanning'):
 
     """
     taps = scipy.signal.firwin(coeffs, cutoff/(float(fs)/2), window=window)
-    return scipy.signal.lfilter(taps, 1.0, x)
+    return scipy.signal.lfilter(taps, 1.0, data)
 
-def medianlimiter(x, size=11, weight=1):
+def medianlimiter(data, size=11, weight=1):
     """
     Limit a signal with a sliding median window.
 
@@ -61,4 +61,4 @@ def medianlimiter(x, size=11, weight=1):
         The filtered signal.
 
     """
-    return x / numpy.abs(x) * numpy.minimum(numpy.abs(x), weight*numpy.median(Transform.slidingwindow(numpy.abs(x), size=size), axis=1))
+    return data / numpy.abs(data) * numpy.minimum(numpy.abs(data), weight*numpy.median(Transform.slidingwindow(numpy.abs(data), size=size), axis=1))

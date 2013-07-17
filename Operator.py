@@ -12,13 +12,13 @@ Functions
 """
 import numpy
 
-def teager(x):
+def teager(data):
     """
     Return the teager values for a signal
 
     Parameters
     ----------
-    signal : numpy array
+    data : numpy array
         Input signal
 
     Returns
@@ -40,16 +40,16 @@ def teager(x):
            a signal", IEEE (1990).
 
     """
-    e = x[1:-1]**2 - x[2:]*x[:-2]
+    e = data[1:-1]**2 - data[2:]*data[:-2]
     return numpy.hstack((e[0], e, e[-1]))
 
-def frequency(x):
+def frequency(data):
     """
     Return the teager values for a signal
 
     Parameters
     ----------
-    signal : numpy array
+    data : numpy array
         Input signal
 
     Returns
@@ -71,15 +71,15 @@ def frequency(x):
            discrete energy separation algorithm", Signal Processing 90 (2010).
 
     """
-    return numpy.arccos( 1 - ( teager(x[2:]-x[:-2]) / 2*teager(x[1:-1]) ) ) / 2
+    return numpy.arccos( 1 - ( teager(data[2:]-data[:-2]) / 2*teager(data[1:-1]) ) ) / 2
 
-def amplitude(x):
+def amplitude(data):
     """
     Return the teager values for a signal
 
     Parameters
     ----------
-    signal : numpy array
+    data : numpy array
         Input signal
 
     Returns
@@ -101,4 +101,4 @@ def amplitude(x):
            discrete energy separation algorithm", Signal Processing 90 (2010).
 
     """
-    return 2*teager(x[1:-1]) / numpy.sqrt(teager(x[2:]-x[:-2]))
+    return 2*teager(data[1:-1]) / numpy.sqrt(teager(data[2:]-data[:-2]))

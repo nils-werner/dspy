@@ -27,13 +27,13 @@ def halfsin(M):
     """
     return numpy.sin(numpy.pi / M * (numpy.arange(0, M) + .5))
 
-def window(sig):
+def window(data):
     """
     Weigh a signal with the halfsin window function
 
     Parameters
     ----------
-    signal : numpy array
+    data : numpy array
         The input signal.
 
     Returns
@@ -42,4 +42,4 @@ def window(sig):
         The weighted input signal.
 
     """
-    return sig * halfsin(len(sig))
+    return data * halfsin(len(data))

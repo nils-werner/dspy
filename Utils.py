@@ -32,7 +32,7 @@ def defaultopts(parser):
     parser.add_argument('-e', '--harmonic', metavar="FILENAME", help="Save harmonic signal to file")
     parser.add_argument('-p', '--percussive', metavar="FILENAME", help="Save percussive signal to file")
 
-def powof2(arg):
+def powof2(num):
     """
     Check if a number is a power of two
 
@@ -52,7 +52,7 @@ def powof2(arg):
      * Raises an argparse.ArgumentTypeError when the number is not a power of two.
 
     """
-    num = int(arg)
+    num = int(num)
     if(not(num != 0 and ((num & (num - 1)) == 0))):
         raise argparse.ArgumentTypeError("%r is not a power of two" % num)
     return num

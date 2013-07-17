@@ -31,13 +31,13 @@ class Figure():
         """
         self.fig = plt.figure()
 
-    def img(self, sig, subplot=111, **kwargs):
+    def img(self, data, subplot=111, **kwargs):
         """
         Create a new subplot and draw a 2D image in it.
 
         Parameters
         ----------
-        sig : numpy array
+        data : numpy array
             The data to plot.
         subplot : int
             The coordinates of the subplot
@@ -45,7 +45,7 @@ class Figure():
         vmin : float
             The minimum value. Defaults to 0.0001.
         vmax : float
-            The maximum value. Defaults to len(sig).
+            The maximum value. Defaults to len(data).
         norm : method
             The normalization function. Defaults to `matplotlib.colors.LogNorm()`.
         origin : string
@@ -71,26 +71,26 @@ class Figure():
 
         """
         kwargs.setdefault('vmin', 0.0001)
-        kwargs.setdefault('vmax', len(sig))
+        kwargs.setdefault('vmax', len(data))
         kwargs.setdefault('norm', LogNorm())
         kwargs.setdefault('origin', 'lower')
         kwargs.setdefault('aspect', 'auto')
         kwargs.setdefault('interpolation', 'nearest')
 
         ax = self.fig.add_subplot(subplot)
-        ax.imshow(scipy.absolute(sig), **kwargs)
+        ax.imshow(scipy.absolute(data), **kwargs)
         ax.axis('tight')
         ax.set_xlabel('Time')
         ax.set_ylabel('Frequency')
         return ax
 
-    def plot(self, sig, subplot=111, **kwargs):
+    def plot(self, data, subplot=111, **kwargs):
         """
         Create a new subplot and draw a 1D plot in it.
 
         Parameters
         ----------
-        sig : numpy array
+        data : numpy array
             The data to plot.
         subplot : int
             The coordinates of the subplot.
@@ -111,7 +111,7 @@ class Figure():
 
         """
         ax = self.fig.add_subplot(subplot)
-        ax.plot(scipy.real(sig), **kwargs)
+        ax.plot(scipy.real(data), **kwargs)
         ax.axis('tight')
         ax.set_xlabel('Time')
         ax.set_ylabel('Amplitude')
