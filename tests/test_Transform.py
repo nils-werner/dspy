@@ -59,17 +59,22 @@ def test_slidingwindow():
 
 
 def test_bins_extent():
-    fs,original = File.wavread('../wav/cv.wav')
-
-    output = Transform.bins.extent(original, fs)
+    fs = 44100
+    output = Transform.bins.extent(4410000, fs)
 
     assert(output[0] == 0)
     assert(output[-1] == fs/2)
 
 def test_bins_extent_short():
-    fs,original = File.wavread('../wav/cv.wav')
-
-    output = Transform.bins.extent(original[0:256], fs)
+    fs = 44100
+    output = Transform.bins.extent(256, fs)
 
     assert(output[0] == 0)
     assert(output[-1] == fs/2)
+
+def test_bins_number():
+    assert Transform.bins.number(10) == 10
+
+def test_bins_width():
+    assert Transform.bins.width(10, 44100) == 4410
+    assert Transform.bins.width(100, 48000) == 480

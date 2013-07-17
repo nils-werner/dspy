@@ -23,7 +23,7 @@ def extent(framelength, rate, halved=True):
     else:
         return numpy.hstack((numpy.arange(0,framelength/2+1), numpy.arange(framelength/2+1,0,-1))) * rate/framelength
 
-def frequency(frequency, rate):
+def width(frequency, rate):
     """
     Calculate the framelength required for a certain frequency bin width
 
@@ -42,7 +42,7 @@ def frequency(frequency, rate):
     """
     return rate/frequency
 
-def number(number, rate):
+def number(number):
     """
     Calculate the framelength required for a certain number of frequency bins
 
@@ -50,8 +50,6 @@ def number(number, rate):
     ----------
     number : int
         Desired number of bins
-    rate : int
-        Signal sampling rate
 
     Returns
     -------
@@ -59,4 +57,4 @@ def number(number, rate):
         The resulting framelength
 
     """
-    return frequency((rate//2)/number, rate)
+    return number
