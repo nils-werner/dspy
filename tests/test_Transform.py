@@ -2,6 +2,7 @@ import sys
 sys.path.append('..')
 
 from lib import Transform
+from lib.Transform import bins
 from lib import File
 import scipy, numpy
 from pylab import *
@@ -57,18 +58,18 @@ def test_slidingwindow():
     Transform.slidingwindow(outsig)
 
 
-def test_ftfrequencies():
+def test_bins_extent():
     fs,original = File.wavread('../wav/cv.wav')
 
-    output = Transform.ftfrequencies(original, fs)
+    output = Transform.bins.extent(original, fs)
 
     assert(output[0] == 0)
     assert(output[-1] == fs/2)
 
-def test_ftfrequencies_short():
+def test_bins_extent_short():
     fs,original = File.wavread('../wav/cv.wav')
 
-    output = Transform.ftfrequencies(original[0:256], fs)
+    output = Transform.bins.extent(original[0:256], fs)
 
     assert(output[0] == 0)
     assert(output[-1] == fs/2)

@@ -12,20 +12,8 @@ Functions
 `ispectrogram`: Calculate the signal of a complete spectrogram
 
 """
-import Window
+from .. import Window
 import scipy, numpy
-
-def bin_extent(data, rate, halved=True):
-    if(halved):
-        return numpy.arange(0,data.size/2+1) * rate/data.size
-    else:
-        return numpy.hstack((numpy.arange(0,data.size/2+1), numpy.arange(data.size/2+1,0,-1))) * rate/data.size
-
-def bin_frequency(frequency, rate):
-    return float(rate)/float(frequency)
-
-def bin_number(number, rate):
-    return bin_frequency((rate//2)/number, rate)
 
 def stft(data, windowed=True, halved=True):
     """
