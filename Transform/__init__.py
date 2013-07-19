@@ -231,13 +231,7 @@ def slidingwindow(data, size=11, padded=True):
 
     """
 def logscale(data, axis=0):
-    x = numpy.linspace(0,data.shape[1]-1,num=data.shape[1])
-    y = numpy.linspace(0,data.shape[0]-1,num=data.shape[0])
-    f = scipy.interpolate.interp2d(x, y, data, kind='linear')
-    xnew = numpy.linspace(0,data.shape[1]-1,num=data.shape[1])
-    ynew = numpy.linspace(0,data.shape[0]-1,num=data.shape[0])
-    if axis == 0:
-        xnew = numpy.logspace(0,1,num=data.shape[1],base=data.shape[1])-1
-    else:
-        ynew = numpy.logspace(0,1,num=data.shape[0],base=data.shape[0])-1
-    return f(xnew, ynew)
+    x = numpy.linspace(0,data.shape[axis]-1,num=data.shape[axis])
+    f = scipy.interpolate.interp1d(x, data, axis=axis, kind='linear')
+    xnew = numpy.logspace(0,1,num=data.shape[axis],base=data.shape[axis])-1
+    return f(xnew)
