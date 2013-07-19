@@ -15,7 +15,7 @@ Functions
 from .. import Window
 import scipy, numpy
 
-def stft(data, windowed=True, halved=True):
+def stft(data, windowed=True, halved=True, padding=0):
     """
     Calculate the short time fourier transform of a signal
 
@@ -30,6 +30,8 @@ def stft(data, windowed=True, halved=True):
         the fourier transform returns a symmetrically mirrored
         spectrum. This additional data is not needed and can be
         removed. Defaults to True.
+    padding : int
+        ZEro-pad signal with x times the number of samples.
 
     Returns
     -------
@@ -38,14 +40,19 @@ def stft(data, windowed=True, halved=True):
 
     """
     if(windowed):
-        result = scipy.fft(Window.window(data))
-    else:
-        result = scipy.fft(data)
+        data = Window.window(data)
+
+    if(padding):
+        data = numpy.hstack((data, numpy.zeros(len(data) * padding)))
+
+    result = scipy.fft(data)
+
     if(halved):
         result = result[0:result.size/2+1]
+
     return result
 
-def istft(data, windowed=True, halved=True):
+def istft(data, windowed=True, halved=True, padding=0):
     """
     Calculate the inverse short time fourier transform of a spectrum
 
@@ -60,6 +67,8 @@ def istft(data, windowed=True, halved=True):
         the inverse fourier transform consumes a symmetrically
         mirrored spectrum. This additional data is not needed
         and can be removed. Defaults to True.
+    padding : int
+        Signal before FFT transform was padded with x zeros.
 
     Returns
     -------
@@ -69,10 +78,16 @@ def istft(data, windowed=True, halved=True):
     """
     if(halved):
         data = numpy.hstack((data, data[-2:0:-1].conjugate()))
+
+    output = scipy.ifft(data)
+
+    if(padding):
+        output = output[0:-(len(data) * padding/(padding+1))]
+
     if(windowed):
-        return scipy.real(Window.window(scipy.ifft(data)))
-    else:
-        return scipy.real(scipy.ifft(data))
+        output = Window.window(output)
+
+    return scipy.real(output)
 
 
 def spectrogram(data, framelength=1024, overlap=2, **kwargs):

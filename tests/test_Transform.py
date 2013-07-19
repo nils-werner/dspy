@@ -8,8 +8,7 @@ import scipy, numpy
 from pylab import *
 
 
-def fft_identity(framelength, overlap):
-    print(framelength, overlap)
+def fft_identity(framelength, overlap, padding):
     fs,original = File.wavread('../wav/cv.wav')
 
     padlength = (len(original)%framelength) * overlap * 2
@@ -19,22 +18,23 @@ def fft_identity(framelength, overlap):
 
     values = range(0, len(original)-framelength, framelength//overlap)
     for i in values:
-        spectrum = Transform.stft(original[i:i+framelength]) / (overlap//2)
-        output[i:i+framelength] += Transform.istft(spectrum)
+        spectrum = Transform.stft(original[i:i+framelength], padding=padding) / (overlap//2)
+        output[i:i+framelength] += Transform.istft(spectrum, padding=padding)
 
     assert(len(original) - len(output) < framelength)
     print(numpy.max(original - output))
     assert numpy.allclose(original[padlength//2:-padlength//2], output[padlength//2:-padlength//2], rtol=1e-03, atol=1e-03)
 
 
-def spectrogram_identity(framelength, overlap):
-    print(framelength, overlap)
+def spectrogram_identity(framelength, overlap, padding):
     fs,original = File.wavread('../wav/cv.wav')
 
     padlength = (len(original)%framelength) * overlap * 2
     original = numpy.hstack((numpy.zeros((padlength//2,)), original, numpy.zeros((padlength//2,))))
 
-    output = Transform.ispectrogram(Transform.spectrogram(original, framelength=framelength, overlap=overlap), framelength=framelength, overlap=overlap)
+    output = Transform.ispectrogram(
+            Transform.spectrogram(original, framelength=framelength, overlap=overlap, padding=padding),
+        framelength=framelength, overlap=overlap, padding=padding)
 
     assert(len(original) - len(output) < framelength)
 
@@ -45,12 +45,14 @@ def spectrogram_identity(framelength, overlap):
 def test_fft_identity():
     for i in [512, 1024, 2048]:
         for j in [2, 4, 8]:
-            yield fft_identity, i, j
+            for k in [0, 1, 2]:
+                yield fft_identity, i, j, k
 
 def test_spectrogram_identity():
     for i in [512, 1024, 2048]:
         for j in [2, 4, 8]:
-            yield spectrogram_identity, i, j
+            for k in [0, 1, 2]:
+                yield spectrogram_identity, i, j, k
 
 
 def test_slidingwindow():
