@@ -198,3 +198,31 @@ def slidingwindow(data, size=11, padded=True):
     shape = (1 + (tmp.nbytes - size*tmp.itemsize)/strides[0], size)
 
     return numpy.lib.stride_tricks.as_strided(tmp, shape=shape, strides=strides)
+
+    """
+    Interpolates a spectrum or any image to be represented on a logarithmic scale
+
+    Parameters
+    ----------
+    data : numpy array
+        The image to be transformed.
+    axis : int
+        The axis to rescale. Defaults to 0.
+
+    Returns
+    -------
+    data : numpy array
+        The transformed image.
+
+    """
+def logscale(data, axis=0):
+    x = numpy.linspace(0,data.shape[1]-1,num=data.shape[1])
+    y = numpy.linspace(0,data.shape[0]-1,num=data.shape[0])
+    f = scipy.interpolate.interp2d(x, y, data, kind='linear')
+    xnew = numpy.linspace(0,data.shape[1]-1,num=data.shape[1])
+    ynew = numpy.linspace(0,data.shape[0]-1,num=data.shape[0])
+    if axis == 0:
+        xnew = numpy.logspace(0,1,num=data.shape[1],base=data.shape[1])-1
+    else:
+        ynew = numpy.logspace(0,1,num=data.shape[0],base=data.shape[0])-1
+    return f(xnew, ynew)
