@@ -70,8 +70,6 @@ class Figure():
         * Only absolute values are plotted.
 
         """
-        kwargs.setdefault('vmin', 0.0001)
-        kwargs.setdefault('vmax', len(data))
         kwargs.setdefault('norm', LogNorm())
         kwargs.setdefault('origin', 'lower')
         kwargs.setdefault('aspect', 'auto')
