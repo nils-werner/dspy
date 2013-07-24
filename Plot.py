@@ -31,7 +31,7 @@ class Figure():
         """
         self.fig = plt.figure()
 
-    def img(self, data, subplot=111, **kwargs):
+    def img(self, data, subplot=111, sharex=None, sharey=None, **kwargs):
         """
         Create a new subplot and draw a 2D image in it.
 
@@ -77,14 +77,14 @@ class Figure():
         kwargs.setdefault('aspect', 'auto')
         kwargs.setdefault('interpolation', 'nearest')
 
-        ax = self.fig.add_subplot(subplot)
+        ax = self.fig.add_subplot(subplot, sharex=sharex, sharey=sharey)
         ax.imshow(scipy.absolute(data), **kwargs)
         ax.axis('tight')
         ax.set_xlabel('Time')
         ax.set_ylabel('Frequency')
         return ax
 
-    def plot(self, data, subplot=111, **kwargs):
+    def plot(self, data, subplot=111, sharex=None, sharey=None, **kwargs):
         """
         Create a new subplot and draw a 1D plot in it.
 
@@ -110,7 +110,7 @@ class Figure():
         * Only absolute values are plotted
 
         """
-        ax = self.fig.add_subplot(subplot)
+        ax = self.fig.add_subplot(subplot, sharex=sharex, sharey=sharey)
         ax.plot(scipy.real(data), **kwargs)
         ax.axis('tight')
         ax.set_xlabel('Time')
