@@ -38,6 +38,61 @@ def lowpass(data, cutoff, fs, coeffs=61, window='hanning'):
     taps = scipy.signal.firwin(coeffs, cutoff/(float(fs)/2), window=window)
     return scipy.signal.lfilter(taps, 1.0, data)
 
+def highpass(data, cutoff, fs, coeffs=61, window='hanning'):
+    """
+    Filter a signal with a highpass
+
+    Parameters
+    ----------
+    data : numpy array
+        Input signal.
+    cutoff : int
+        Cutoff frequency.
+    fs : int
+        Sampling rate.
+    coeffs : int
+        Coefficients. Defaults to 61.
+    window : string
+        Filter window to be used. Defaults to 'hanning'.
+
+    Returns
+    -------
+    data : numpy array
+        The filtered signal
+
+    """
+    taps = scipy.signal.firwin(coeffs, cutoff/(float(fs)/2), window=window)
+    taps = -taps
+    taps[coeffs/2] = taps[coeffs/2] + 1
+    return scipy.signal.lfilter(taps, 1.0, data)
+
+def bandpass(data, cutoff_low, cutoff_high, fs, **kwargs):
+    """
+    Filter a signal with a bandpass
+
+    Parameters
+    ----------
+    data : numpy array
+        Input signal.
+    cutoff_low : int
+        Lower end cutoff frequency.
+    cutoff_high : int
+        Upper end cutoff frequency.
+    fs : int
+        Sampling rate.
+    coeffs : int
+        Coefficients. Defaults to 61.
+    window : string
+        Filter window to be used. Defaults to 'hanning'.
+
+    Returns
+    -------
+    data : numpy array
+        The filtered signal
+
+    """
+    return highpass(lowpass(data, cutoff_low, fs, **kwargs), cutoff_high, fs, **kwargs)
+
 def medianlimiter(data, size=11, weight=1):
     """
     Limit a signal with a sliding median window.
