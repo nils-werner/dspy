@@ -221,6 +221,8 @@ def slidingwindow(data, size=11, padded=True):
     ----------
     data : numpy array
         The image to be transformed.
+    bins : int
+        Number of bins to interpolate to. Defaults to number of bins in input signal.
     axis : int
         The axis to rescale. Defaults to 0.
 
@@ -230,8 +232,11 @@ def slidingwindow(data, size=11, padded=True):
         The transformed image.
 
     """
-def logscale(data, axis=0):
+def logscale(data, bins=None, axis=0):
+    if bins is None:
+        bins = data.shape[axis]
+
     x = numpy.linspace(0,data.shape[axis]-1,num=data.shape[axis])
     f = scipy.interpolate.interp1d(x, data, axis=axis, kind='linear')
-    xnew = numpy.logspace(0,1,num=data.shape[axis],base=data.shape[axis])-1
+    xnew = numpy.logspace(0,1,num=bins,base=data.shape[axis])-1
     return f(xnew)
