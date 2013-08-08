@@ -42,6 +42,13 @@ def spectrogram_identity(framelength, overlap, padding):
     print(numpy.max(original - output))
     assert numpy.allclose(original[padlength//2:-padlength//2], output[padlength//2:-padlength//2], rtol=1e-03, atol=1e-03)
 
+def test_logspace_identity():
+    fs,original = File.wavread('../wav/cv.wav')
+
+    linspec = Transform.spectrogram(original)
+    logspec = Transform.logscale(linspec)
+    result = Transform.expscale(logspec)
+
 def test_fft_identity():
     for i in [512, 1024, 2048]:
         for j in [2, 4, 8]:
