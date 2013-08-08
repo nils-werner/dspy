@@ -214,6 +214,7 @@ def slidingwindow(data, size=11, padded=True):
 
     return numpy.lib.stride_tricks.as_strided(tmp, shape=shape, strides=strides)
 
+def logscale(data, bins=None, axis=0):
     """
     Interpolates a spectrum or any image to be represented on a logarithmic scale
 
@@ -232,7 +233,6 @@ def slidingwindow(data, size=11, padded=True):
         The transformed image.
 
     """
-def logscale(data, bins=None, axis=0):
     if bins is None:
         bins = data.shape[axis]
 
