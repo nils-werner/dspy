@@ -117,3 +117,26 @@ def medianlimiter(data, size=11, weight=1):
 
     """
     return data / numpy.abs(data) * numpy.minimum(numpy.abs(data), weight*numpy.median(Transform.slidingwindow(numpy.abs(data), size=size), axis=1))
+
+def localaveragecompensation(data, size=11):
+    """
+    Compensate local average of a signal.
+
+    To calculate the output signal, a sliding average value is calculated
+    for each sample in the signal. This average is then being subtracted
+    from the input signal.
+
+    Parameters
+    ----------
+    data : numpy array
+        Input signal.
+    size : int
+        Size of the sliding window. Defaults to 11.
+
+    Returns
+    -------
+    data : numpy array
+        The filtered signal.
+
+    """
+    return data - numpy.average(Transform.slidingwindow(numpy.abs(data), size=size), axis=1)
