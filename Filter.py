@@ -12,7 +12,7 @@ import scipy.signal
 import numpy
 import Transform
 
-def lowpass(data, cutoff, fs, coeffs=61, window='hanning'):
+def lowpass(data, cutoff, fs, coeffs=61, window='hanning', unshift=False):
     """
     Filter a signal with a lowpass
 
@@ -28,6 +28,8 @@ def lowpass(data, cutoff, fs, coeffs=61, window='hanning'):
         Coefficients. Defaults to 61.
     window : string
         Filter window to be used. Defaults to 'hanning'.
+    unshift : boolean
+        Unshift result by filter delay. Defaults to false.
 
     Returns
     -------
@@ -36,9 +38,14 @@ def lowpass(data, cutoff, fs, coeffs=61, window='hanning'):
 
     """
     taps = scipy.signal.firwin(coeffs, cutoff/(float(fs)/2), window=window)
-    return scipy.signal.lfilter(taps, 1.0, data)
+    data = scipy.signal.lfilter(taps, 1.0, data)
 
-def highpass(data, cutoff, fs, coeffs=61, window='hanning'):
+    if unshift is True:
+        return numpy.roll(data, -coeffs // 2)
+    else:
+        return data
+
+def highpass(data, cutoff, fs, coeffs=61, window='hanning', unshift=False):
     """
     Filter a signal with a highpass
 
@@ -54,6 +61,8 @@ def highpass(data, cutoff, fs, coeffs=61, window='hanning'):
         Coefficients. Defaults to 61.
     window : string
         Filter window to be used. Defaults to 'hanning'.
+    unshift : boolean
+        Unshift result by filter delay. Defaults to false.
 
     Returns
     -------
@@ -64,7 +73,12 @@ def highpass(data, cutoff, fs, coeffs=61, window='hanning'):
     taps = scipy.signal.firwin(coeffs, cutoff/(float(fs)/2), window=window)
     taps = -taps
     taps[coeffs/2] = taps[coeffs/2] + 1
-    return scipy.signal.lfilter(taps, 1.0, data)
+    data = scipy.signal.lfilter(taps, 1.0, data)
+
+    if unshift is True:
+        return numpy.roll(data, -coeffs // 2)
+    else:
+        return data
 
 def bandpass(data, cutoff_low, cutoff_high, fs, **kwargs):
     """
@@ -84,6 +98,8 @@ def bandpass(data, cutoff_low, cutoff_high, fs, **kwargs):
         Coefficients. Defaults to 61.
     window : string
         Filter window to be used. Defaults to 'hanning'.
+    unshift : boolean
+        Unshift result by filter delay. Defaults to false.
 
     Returns
     -------
