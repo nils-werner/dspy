@@ -11,6 +11,8 @@ Functions
 
 """
 import numpy
+from numpy import logical_and, average, diff
+from matplotlib.mlab import find
 
 def teager(data):
     """
@@ -102,3 +104,37 @@ def amplitude(data):
 
     """
     return 2*teager(data[1:-1]) / numpy.sqrt(teager(data[2:]-data[:-2]))
+
+def freq_from_crossings(sig, fs):
+    """
+    Estimate frequency by counting zero crossings
+
+    Parameters
+    ----------
+    data : numpy array
+        Input signal
+    fs : int
+        Sampling frequency
+
+    Returns
+    -------
+    data : int
+        Estimated frequency
+
+    Notes
+    -----
+
+    * Doesn't work if there are multiple zero crossings per cycle.
+
+    References
+    ----------
+    .. [3] https://gist.github.com/endolith/129445
+
+    """
+
+    indices = find(logical_and(sig[1:] >= 0, sig[:-1] < 0))
+
+    # Linear interpolation to find truer zero crossings
+    crossings = [i - sig[i] / (sig[i+1] - sig[i]) for i in indices]
+
+    return fs / average(diff(crossings))
