@@ -104,6 +104,10 @@ def rls(x, n, order=4, lamb=1.0):
     e : numpy array
         Filtered signal.
 
+    References
+    ----------
+    .. [1] : http://www.mathworks.com/matlabcentral/fileexchange/36858-recursive-least-squares-filter
+
     """
     assert 0 < lamb <= 1, "lambda must be between 0 and 1"
     assert 0 < order, "order must be greater than zero"
