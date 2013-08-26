@@ -7,6 +7,8 @@ Functions
 
 `burg`: Generate predictor coefficients using the Burg algorithm
 
+`rls`: Recursive Least Squares filter
+
 `predict`: Run an autoregressive linear predictor
 
 """
