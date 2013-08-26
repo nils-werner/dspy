@@ -83,6 +83,57 @@ def burg(correlation, order):
 
     return (coeffs,energy)
 
+
+def rls(x, n, order=4, lamb=1.0):
+    """
+    Recursive Least Squares Filter
+
+    Parameters
+    ----------
+    x : numpy array
+        Input signal.
+    n : numpy array
+        Noise signal.
+    order : int
+        Filter order.
+    lamb : float
+        Forgetting factor.
+
+    Returns
+    -------
+    e : numpy array
+        Filtered signal.
+
+    """
+    assert 0 < lamb <= 1, "lambda must be between 0 and 1"
+    assert 0 < order, "order must be greater than zero"
+
+    w = numpy.zeros(order)
+    e = numpy.zeros_like(x)
+    P = numpy.eye(order)
+
+    for m in range(order, len(x)):
+        # Acquire chunk of data
+        y = n[m:m-order:-1];
+
+        # Error signal equation
+        e[m] = x[m]-numpy.dot(w.T, y);
+
+        # Parameters for efficiency
+        Pi = numpy.dot(P, y);
+
+        # Filter gain vector update
+        k = (Pi)/(lamb+numpy.dot(y.T, Pi));
+
+        # Inverse correlation matrix update
+        P = (P - numpy.dot(numpy.dot(k,y.T),P))*(1/lamb);
+
+        # Filter coefficients adaption
+        w = w + k*e[m];
+
+    return e
+
+
 def predict(data, coeffs):
     """
     Calculate the an autoregressive linear prediction given the signal
