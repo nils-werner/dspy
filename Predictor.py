@@ -41,6 +41,8 @@ def levinson(correlation, order):
     * The first coefficient, 1, is left out.
 
     """
+    assert 0 < order, "order must be greater than zero"
+
     coeffs, energy, reflectioncoeffs = spectrum.LEVINSON(correlation, order)
     energy /= correlation[0];
     return (coeffs,energy)
@@ -71,6 +73,8 @@ def burg(correlation, order):
     * The first coefficient, 1, is left out.
 
     """
+    assert 0 < order, "order must be greater than zero"
+
     coeffs, energy, reflectioncoeffs = spectrum.arburg(correlation, order)
 
     # These values are pure speculation
@@ -112,7 +116,8 @@ def rls(x, d, order=4, lamb=1.0):
 
     References
     ----------
-    .. [1] : http://www.mathworks.com/matlabcentral/fileexchange/36858-recursive-least-squares-filter
+    .. [1] : http://www.mathworks.com/matlabcentral/fileexchange/25769-adaptive-filter
+    .. [2] : http://www.mathworks.de/de/help/dsp/ref/adaptfilt.rls.html
 
     """
     assert 0 < lamb <= 1, "lambda must be between 0 and 1"
