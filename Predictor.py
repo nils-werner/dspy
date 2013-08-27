@@ -86,7 +86,7 @@ def burg(correlation, order):
     return (coeffs,energy)
 
 
-def rls(x, n, order=4, lamb=1.0):
+def rls(x, d, order=4, lamb=1.0):
     """
     Recursive Least Squares Filter
 
@@ -94,8 +94,8 @@ def rls(x, n, order=4, lamb=1.0):
     ----------
     x : numpy array
         Input signal.
-    n : numpy array
-        Noise signal.
+    d : numpy array
+        Desired signal.
     order : int
         Filter order.
     lamb : float
@@ -103,8 +103,12 @@ def rls(x, n, order=4, lamb=1.0):
 
     Returns
     -------
+    w : numpy array
+        Filter coefficients.
     e : numpy array
-        Filtered signal.
+        Error signal.
+    y : numpy array
+        Estimated signal.
 
     References
     ----------
@@ -116,28 +120,19 @@ def rls(x, n, order=4, lamb=1.0):
 
     w = numpy.zeros(order)
     e = numpy.zeros_like(x)
+    y = numpy.zeros_like(x)
     P = numpy.eye(order)
 
     for m in range(order, len(x)):
-        # Acquire chunk of data
-        y = n[m:m-order:-1];
-
-        # Error signal equation
-        e[m] = x[m]-numpy.dot(w.T, y);
-
-        # Parameters for efficiency
-        Pi = numpy.dot(P, y);
-
-        # Filter gain vector update
-        k = (Pi)/(lamb+numpy.dot(y.T, Pi));
-
-        # Inverse correlation matrix update
-        P = (P - numpy.dot(numpy.dot(k,y.T),P))*(1/lamb);
-
-        # Filter coefficients adaption
+        c = x[m:m-order:-1];
+        Pi = numpy.dot(P, c);
+        k = Pi/(lamb+numpy.dot(c.T, Pi));
+        y[m] = numpy.dot(w.T, c)
+        e[m] = d[m]-y[m]
+        P = (P - numpy.dot(numpy.dot(k,c.T),P))*(1/lamb);
         w = w + k*e[m];
 
-    return e
+    return (w,e,y)
 
 
 def predict(data, coeffs):
