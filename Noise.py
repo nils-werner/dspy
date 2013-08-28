@@ -48,6 +48,7 @@ def pepper(data, probability=0.1, minv=None, maxv=None):
             minv = numpy.iinfo(data.dtype).min
 
     mask = numpy.random.randint(0, 2/probability+1, size=data.shape)
+    data = data.copy()
     data[mask == 0] = minv
     data[mask == 2/probability] = maxv
     return data
