@@ -39,7 +39,12 @@ def wavread(filename):
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         rate,data = wav.read(filename)
-    maxv = numpy.iinfo(data.dtype).max
+
+    try:
+        maxv = numpy.finfo(data.dtype).max
+    except:
+        maxv = numpy.iinfo(data.dtype).max
+
     return (rate,data.astype('float') / maxv)
 
 def wavwrite(filename, rate, data):

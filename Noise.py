@@ -34,17 +34,18 @@ def pepper(data, probability=0.1, minv=None, maxv=None):
     data : numpy array
         Output signal
 
-    Notes
-    -----
-
-    * Automatic min/max discovery only works on float types
-
     """
     if maxv is None:
-         maxv = numpy.finfo(data.dtype).max
+        try:
+            maxv = numpy.finfo(data.dtype).max
+        except:
+            maxv = numpy.iinfo(data.dtype).max
 
     if minv is None:
-         minv = numpy.finfo(data.dtype).min
+        try:
+            minv = numpy.finfo(data.dtype).min
+        except:
+            minv = numpy.iinfo(data.dtype).min
 
     mask = numpy.random.randint(0, 2/probability+1, size=data.shape)
     data[mask == 0] = minv
