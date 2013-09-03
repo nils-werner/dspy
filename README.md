@@ -1,5 +1,7 @@
 # Digital Signal Processing tools for Python
 
+[![Build Status](https://travis-ci.org/nils-werner/dspy.png)](https://travis-ci.org/nils-werner/dspy)
+
 This small library has initially been created as a integrated part of a diploma thesis.
 While the thesis took form, this library has been desiged to become more and more abstract
 from the code relevant to the research I was conducting.
