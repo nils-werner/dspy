@@ -31,7 +31,7 @@ def noalsaerr():
     yield
     asound.snd_lib_error_set_handler(None)
 
-def play(data, rate=44100):
+def play(data, rate=44100, suppress=True):
     """
     Play a signal.
 
@@ -41,6 +41,8 @@ def play(data, rate=44100):
         Input signal.
     rate : int
         Sampling rate. Defaults to 44100.
+    suppress : bool
+        Suppress ALSA errors. Defaults to True.
 
     Notes
     -----
@@ -50,7 +52,10 @@ def play(data, rate=44100):
      * The input signal is assumed to be normalized between -1 and 1.
 
     """
-    with noalsaerr():
+    if suppress is True:
+        with noalsaerr():
+            p = pyaudio.PyAudio()
+    else:
         p = pyaudio.PyAudio()
     stream = p.open(format=pyaudio.paFloat32, channels=data.shape[0], rate=rate, output=1)
     stream.write(numpy.reshape(data.T, (1,-1)).astype(numpy.float32).tostring())
