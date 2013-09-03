@@ -6,7 +6,8 @@ virtualenv:
     system_site_packages: true
 before_install:
     - "sudo apt-get update -qq"
-    - "sudo apt-get install -qq python-numpy python-scipy python-nose python-matplotlib ipython"
+    - "sudo apt-get install -qq python-numpy python-scipy python-nose python-matplotlib ipython python-pyaudio"
+    - "pip install spectrum"
 install: 
     - "python setup.py build_ext --inplace"
 script: 
