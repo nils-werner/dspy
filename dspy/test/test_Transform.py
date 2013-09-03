@@ -1,15 +1,15 @@
 import sys
 sys.path.append('..')
 
-from lib import Transform
-from lib.Transform import bins
-from lib import File
+from dspy import Transform
+from dspy.Transform import bins
+from dspy import File
 import scipy, numpy
 from pylab import *
 
 
 def fft_identity(framelength, overlap, padding):
-    fs,original = File.wavread('../wav/cv.wav')
+    fs,original = File.wavread('dspy/test/v.wav')
 
     padlength = (len(original)%framelength) * overlap * 2
     original = numpy.hstack((numpy.zeros((padlength//2,)), original, numpy.zeros((padlength//2,))))
@@ -27,7 +27,7 @@ def fft_identity(framelength, overlap, padding):
 
 
 def spectrogram_identity(framelength, overlap, padding):
-    fs,original = File.wavread('../wav/cv.wav')
+    fs,original = File.wavread('dspy/test/v.wav')
 
     padlength = (len(original)%framelength) * overlap * 2
     original = numpy.hstack((numpy.zeros((padlength//2,)), original, numpy.zeros((padlength//2,))))
@@ -43,7 +43,7 @@ def spectrogram_identity(framelength, overlap, padding):
     assert numpy.allclose(original[padlength//2:-padlength//2], output[padlength//2:-padlength//2], rtol=1e-03, atol=1e-03)
 
 def test_logspace_identity():
-    fs,original = File.wavread('../wav/cv.wav')
+    fs,original = File.wavread('dspy/test/v.wav')
 
     linspec = Transform.spectrogram(original)
     logspec = Transform.logscale(linspec)

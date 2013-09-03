@@ -19,17 +19,6 @@ def read(*filenames, **kwargs):
 
 long_description = read('README.md', 'CHANGES.md')
 
-class PyTest(TestCommand):
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = []
-        self.test_suite = True
-
-    def run_tests(self):
-        import pytest
-        errcode = pytest.main(self.test_args)
-        sys.exit(errcode)
-
 setup(
     name='dspy',
     version='0.1',
@@ -40,14 +29,13 @@ setup(
     install_requires=['SciPy>=0.10.1',
                     'NumPy>=1.0',
                     ],
-    cmdclass={'test': PyTest},
     author_email='nils.werner@gmail.com',
     description='Digital Signal Processing tools for Python',
     long_description=long_description,
     packages=['dspy'],
     include_package_data=True,
     platforms='any',
-    test_suite='dspy.test.test_sandman',
+    test_suite='nose.collector',
     classifiers = [
         'Programming Language :: Python',
         'Development Status :: 4 - Beta',

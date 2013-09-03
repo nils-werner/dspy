@@ -3,12 +3,12 @@ sys.path.append('..')
 
 import tempfile
 import os
-from lib import File
+from dspy import File
 import scipy, numpy
 from pylab import *
 
 def test_wavread_range():
-    fs,original = File.wavread('../wav/cv.wav')
+    fs,original = File.wavread('dspy/test/v.wav')
 
     assert 0 < original.max() <= 1
     assert -1 <= original.min() < 0
