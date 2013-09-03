@@ -26,7 +26,7 @@ setup(
     license='MIT',
     author='Nils Werner',
     tests_require=['Nose'],
-    install_requires=['SciPy>=0.11.0',
+    install_requires=['SciPy>=0.9.0',
                     'NumPy>=1.6.0',
                     ],
     author_email='nils.werner@gmail.com',
