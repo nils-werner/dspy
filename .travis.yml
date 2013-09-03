@@ -5,8 +5,7 @@ virtualenv:
     system_site_packages: true
 before_install:
     - "sudo apt-get update -qq"
-    - "sudo apt-get install -qq python-numpy python-scipy python-nose python-matplotlib ipython python-pyaudio"
-    - "sudo apt-get install -qq libasound2"
+    - "sudo apt-get install -qq python-numpy python-scipy python-nose python-matplotlib ipython python-pyaudio libasound2"
     - "pip install spectrum"
     - "export DISPLAY=:99.0"
     - "sh -e /etc/init.d/xvfb start"
