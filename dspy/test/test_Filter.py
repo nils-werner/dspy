@@ -2,7 +2,7 @@ import sys
 sys.path.append('..')
 
 import os
-from dspy import Filter
+from dspy.dspy import Filter
 import scipy, numpy
 from pylab import *
 

@@ -1,7 +1,7 @@
 import sys
 sys.path.append('..')
 
-from dspy import Plot
+from dspy.dspy import Plot
 import scipy, numpy
 from pylab import *
 

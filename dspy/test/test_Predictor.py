@@ -1,8 +1,8 @@
 import sys
 sys.path.append('..')
 
-from dspy import Predictor
-from dspy import Statistic
+from dspy.dspy import Predictor
+from dspy.dspy import Statistic
 import scipy, numpy, scipy.signal
 from pylab import *
 

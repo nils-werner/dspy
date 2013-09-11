@@ -1,7 +1,7 @@
 import sys
 sys.path.append('..')
 
-from dspy import Statistic
+from dspy.dspy import Statistic
 import scipy, numpy
 from pylab import *
 

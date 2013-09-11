@@ -1,9 +1,9 @@
 import sys
 sys.path.append('..')
 
-from dspy import Transform
-from dspy.Transform import bins
-from dspy import File
+from dspy.dspy import Transform
+from dspy.dspy.Transform import bins
+from dspy.dspy import File
 import scipy, numpy
 from pylab import *
 
