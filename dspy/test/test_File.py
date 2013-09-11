@@ -7,8 +7,10 @@ from dspy.dspy import File
 import scipy, numpy
 from pylab import *
 
+here = os.path.dirname(__file__)
+
 def test_wavread_range():
-    fs,original = File.wavread('dspy/test/v.wav')
+    fs,original = File.wavread(here + '/v.wav')
 
     assert 0 < original.max() <= 1
     assert -1 <= original.min() < 0
