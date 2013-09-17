@@ -57,6 +57,10 @@ def play(data, rate=44100, suppress=True):
             p = pyaudio.PyAudio()
     else:
         p = pyaudio.PyAudio()
+
+    if data.ndim == 1:
+        data = data[..., numpy.newaxis].T
+
     stream = p.open(format=pyaudio.paFloat32, channels=data.shape[0], rate=rate, output=1)
     stream.write(numpy.reshape(data.T, (1,-1)).astype(numpy.float32).tostring())
     stream.close()
