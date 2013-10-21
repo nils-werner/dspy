@@ -8,6 +8,7 @@ before_install:
     - "sudo apt-get install -qq python-numpy python-scipy python-nose python-matplotlib ipython python-pyaudio libasound2 libasound2-plugins libasound-dev pulseaudio alsa-base"
     - "sudo ldconfig"
     - "pip install spectrum"
+    - "pip install cvxopt"
     - "pip install pymf"
     - "export DISPLAY=:99.0"
     - "sh -e /etc/init.d/xvfb start"
