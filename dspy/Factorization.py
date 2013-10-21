@@ -9,7 +9,7 @@ Functions
 import numpy
 import pymf
 
-def nmf(data, iterations=10, num_bases=2):
+def nmf(data, iterations=None, num_bases=None):
     """
     Calculate Non-negative matrix factorization that fulfills
 
@@ -32,6 +32,12 @@ def nmf(data, iterations=10, num_bases=2):
         Matrix H
 
     """
+    if num_bases is None:
+        num_bases = data.shape[1]-1
+
+    if iterations is None:
+        iterations = num_bases // 2
+
     nmf_mdl = pymf.NMF(data, num_bases=num_bases)
     nmf_mdl.factorize(niter=iterations)
     return nmf_mdl.W, nmf_mdl.H
