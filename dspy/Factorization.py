@@ -32,7 +32,6 @@ def nmf(data, iterations=10, num_bases=2):
         Matrix H
 
     """
-    nmf_mdl = pymf.NMF(data, num_bases=num_bases, niter=iterations)
-    nmf_mdl.initialization()
-    nmf_mdl.factorize()
+    nmf_mdl = pymf.NMF(data, num_bases=num_bases)
+    nmf_mdl.factorize(niter=iterations)
     return nmf_mdl.W, nmf_mdl.H
