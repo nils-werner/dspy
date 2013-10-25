@@ -90,6 +90,8 @@ def istft(data, windowed=True, halved=True, padding=0):
 
     return scipy.real(output)
 
+fft = stft
+ifft = istft
 
 def spectrogram(data, framelength=1024, overlap=2, transform=None, **kwargs):
     """
