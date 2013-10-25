@@ -91,7 +91,7 @@ def istft(data, windowed=True, halved=True, padding=0):
     return scipy.real(output)
 
 
-def spectrogram(data, framelength=1024, overlap=2, **kwargs):
+def spectrogram(data, framelength=1024, overlap=2, transform=None, **kwargs):
     """
     Calculate the spectrogram of a signal
 
@@ -118,9 +118,12 @@ def spectrogram(data, framelength=1024, overlap=2, **kwargs):
         The spectrogram
 
     """
+    if transform is None:
+        transform = stft
+
     values = list(enumerate(range(0, len(data)-framelength, framelength//overlap)))
     for j,i in values:
-        sig = stft(data[i:i+framelength], **kwargs) / (overlap//2)
+        sig = transform(data[i:i+framelength], **kwargs) / (overlap//2)
 
         if(i == 0):
             output = numpy.zeros((len(values), sig.shape[0]), dtype=sig.dtype)
@@ -129,7 +132,7 @@ def spectrogram(data, framelength=1024, overlap=2, **kwargs):
 
     return output
 
-def ispectrogram(data, framelength=1024, overlap=2, **kwargs):
+def ispectrogram(data, framelength=1024, overlap=2, transform=None, **kwargs):
     """
     Calculate the inverse spectrogram of a signal
 
@@ -156,10 +159,13 @@ def ispectrogram(data, framelength=1024, overlap=2, **kwargs):
         The signal
 
     """
+    if transform is None:
+        transform = istft
+
     i = 0
     values = range(0, data.shape[0])
     for j in values:
-        sig = istft(data[j,:], **kwargs)
+        sig = transform(data[j,:], **kwargs)
 
         if(i == 0):
             output = numpy.zeros(framelength + (len(values) - 1) * framelength//overlap, dtype=sig.dtype)
