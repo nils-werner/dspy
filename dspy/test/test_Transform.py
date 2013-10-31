@@ -3,6 +3,7 @@ sys.path.append('..')
 
 from dspy.dspy import Transform
 from dspy.dspy.Transform import bins
+from dspy.dspy.Transform import scale
 from dspy.dspy import File
 import scipy, numpy
 from pylab import *
@@ -48,8 +49,8 @@ def test_logspace_identity():
     fs,original = File.wavread(here + '/v.wav')
 
     linspec = Transform.spectrogram(original)
-    logspec = Transform.logscale(linspec)
-    result = Transform.expscale(logspec)
+    logspec = Transform.scale.log(linspec)
+    result = Transform.scale.exp(logspec)
 
 def test_fft_identity():
     for i in [512, 1024, 2048]:
