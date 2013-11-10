@@ -14,6 +14,27 @@ Functions
 import numpy
 import numpy.random
 
+def white(data, snr=0.0):
+    """
+    Add white noise to signal.
+
+    Parameters
+    ----------
+    data : numpy array
+        Input signal
+    snr : float
+        Desired Signal-To-Noise-Ratio
+
+    Returns
+    -------
+    data : numpy array
+        Output signal
+
+    """
+    numpy.random.randn(len(data))
+
+    return data
+
 def pepper(data, probability=0.1, minv=None, maxv=None):
     """
     Add salt and pepper noise to signal.
