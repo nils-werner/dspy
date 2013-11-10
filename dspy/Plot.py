@@ -14,7 +14,7 @@ Functions
 `save`: Save the figure to file.
 
 """
-import scipy
+import numpy, scipy
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 
@@ -110,6 +110,8 @@ class Figure():
         """
         ax = self.fig.add_subplot(subplot, sharex=sharex, sharey=sharey)
         ax.plot(scipy.real(data), **kwargs)
+        if numpy.iscomplex(data).any():
+            ax.plot(scipy.imag(data), **kwargs)
         ax.axis('tight')
         ax.set_xlabel('Time')
         ax.set_ylabel('Amplitude')
