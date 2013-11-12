@@ -37,7 +37,7 @@ def lowpass(data, cutoff, fs, coeffs=61, window='hanning', unshift=False):
         The filtered signal
 
     """
-    taps = scipy.signal.firwin(coeffs, cutoff/(float(fs)/2), window=window)
+    taps = scipy.signal.firwin(coeffs, cutoff/(float(fs)/2.0), window=window)
     data = scipy.signal.lfilter(taps, 1.0, data)
 
     if unshift is True:
@@ -70,7 +70,7 @@ def highpass(data, cutoff, fs, coeffs=61, window='hanning', unshift=False):
         The filtered signal
 
     """
-    taps = scipy.signal.firwin(coeffs, cutoff/(float(fs)/2), window=window)
+    taps = scipy.signal.firwin(coeffs, cutoff/(float(fs)/2.0), window=window)
     taps = -taps
     taps[coeffs/2] = taps[coeffs/2] + 1
     data = scipy.signal.lfilter(taps, 1.0, data)
@@ -80,7 +80,7 @@ def highpass(data, cutoff, fs, coeffs=61, window='hanning', unshift=False):
     else:
         return data
 
-def bandpass(data, cutoff_low, cutoff_high, fs, **kwargs):
+def bandpass(data, cutoff_low, cutoff_high, fs, order=9, **kwargs):
     """
     Filter a signal with a bandpass
 
@@ -94,8 +94,8 @@ def bandpass(data, cutoff_low, cutoff_high, fs, **kwargs):
         Upper end cutoff frequency.
     fs : int
         Sampling rate.
-    coeffs : int
-        Coefficients. Defaults to 61.
+    order : int
+        Order of filter. Defaults to 9.
     window : string
         Filter window to be used. Defaults to 'hanning'.
     unshift : boolean
@@ -107,7 +107,8 @@ def bandpass(data, cutoff_low, cutoff_high, fs, **kwargs):
         The filtered signal
 
     """
-    return highpass(lowpass(data, cutoff_low, fs, **kwargs), cutoff_high, fs, **kwargs)
+    b,a = scipy.signal.butter(order, [cutoff_low/(float(fs)/2.0), cutoff_high/(float(fs)/2.0)], btype='band')
+    return scipy.signal.lfilter(b,a,data)
 
 def medianlimiter(data, size=11, weight=1):
     """
