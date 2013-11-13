@@ -10,6 +10,9 @@ def teager(x):
 def rms(x, axis=None):
     return numpy.sqrt(numpy.mean(x**2, axis=axis))
 
+def snr(signal, noise):
+    return db(rms(signal) / rms(noise), energy=True)
+
 def db(x, energy=False):
     if energy is False:
         return 10.0*numpy.log10(x)

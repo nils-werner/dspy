@@ -27,6 +27,8 @@ def defaultopts(parser):
     parser.add_argument('-f', '--framelength', type=powof2, default=1024, metavar="SAMPLES", help="Set FFT framelength")
     parser.add_argument('--overlap', type=powof2, default=2, metavar="FRAMELENGTH/X", help="Set relative FFT frame overlap")
 
+    parser.add_argument('--noise', type=float, default=None, metavar="SNR", help="Add white noise to signal for given SNR.")
+
 
 def powof2(num):
     """
