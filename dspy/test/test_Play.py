@@ -2,7 +2,7 @@ import sys
 sys.path.append('..')
 
 import os
-from dspy.dspy import Play
+from dspy import Play
 import scipy, numpy
 from pylab import *
 

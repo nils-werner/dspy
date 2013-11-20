@@ -2,7 +2,7 @@ import sys
 sys.path.append('..')
 
 import scipy, numpy
-from dspy.dspy import Factorization
+from dspy import Factorization
 
 def test_nmf():
     data = numpy.array([[1.0, 0.0, 2.0], [0.0, 1.0, 1.0]])

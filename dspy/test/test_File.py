@@ -3,7 +3,7 @@ sys.path.append('..')
 
 import tempfile
 import os
-from dspy.dspy import File
+from dspy import File
 import scipy, numpy
 from pylab import *
 

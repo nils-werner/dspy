@@ -1,4 +1,4 @@
 import sys
 sys.path.append('..')
 
-from dspy.dspy import Debug
+from dspy import Debug

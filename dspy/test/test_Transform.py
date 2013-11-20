@@ -1,10 +1,10 @@
 import sys
 sys.path.append('..')
 
-from dspy.dspy import Transform
-from dspy.dspy.Transform import bins
-from dspy.dspy.Transform import scale
-from dspy.dspy import File
+from dspy import Transform
+from dspy.Transform import bins
+from dspy.Transform import scale
+from dspy import File
 import scipy, numpy
 from pylab import *
 import os
