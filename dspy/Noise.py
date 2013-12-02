@@ -13,7 +13,7 @@ Functions
 
 import numpy
 import numpy.random
-import Operator
+from . import Operator
 
 def white(data, snr=3.0):
     """

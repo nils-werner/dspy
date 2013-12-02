@@ -10,7 +10,7 @@ Functions
 """
 import scipy.signal
 import numpy
-import Transform
+from . import Transform
 
 def lowpass(data, cutoff, fs, coeffs=61, window='hanning', unshift=False):
     """
