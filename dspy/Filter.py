@@ -157,3 +157,24 @@ def localaveragecompensation(data, size=11):
 
     """
     return data - numpy.average(Transform.slidingwindow(numpy.abs(data), size=size), axis=1)
+
+def resample(data, datafs, targetfs):
+    """
+    Resample signal from one sampling frequency to another.
+
+    Parameters
+    ----------
+    data : numpy array
+        Input signal.
+    datafs : int
+        Sampling frequency of input signal.
+    targetfs : int
+        Desired output sampling frequency.
+
+    Returns
+    -------
+    data : numpy array
+        The resampled signal.
+
+    """
+    return scipy.signal.resample(data, int((len(data) / float(datafs)) * float(targetfs)))
