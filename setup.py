@@ -57,5 +57,6 @@ setup(
         ],
     extras_require={
         'testing': ['Nose'],
-    }
+    },
+    dependency_links=["git+https://github.com/nils-werner/pymf.git#egg=pymf-0.1.9"]
 )
