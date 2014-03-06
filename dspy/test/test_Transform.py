@@ -90,3 +90,8 @@ def test_bins_number():
 def test_bins_width():
     assert Transform.bins.width(10, 44100) == 4410
     assert Transform.bins.width(100, 48000) == 480
+
+def test_constantq():
+    fs,original = File.wavread(here + '/v.wav')
+
+    Transform.constantQ(original,fs)
