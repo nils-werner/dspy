@@ -37,7 +37,7 @@ setup(
     author_email='nils.werner@gmail.com',
     description='Digital Signal Processing tools for Python',
     long_description=long_description,
-    packages=['dspy'],
+    packages=find_packages(),
     include_package_data=True,
     platforms='any',
     test_suite='nose.collector',
