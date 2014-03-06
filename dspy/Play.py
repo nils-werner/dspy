@@ -26,10 +26,13 @@ def noalsaerr():
     A context manager that suppresses ALSA Warnings
 
     """
-    asound = cdll.LoadLibrary('libasound.so')
-    asound.snd_lib_error_set_handler(c_error_handler)
-    yield
-    asound.snd_lib_error_set_handler(None)
+    try:
+        asound = cdll.LoadLibrary('libasound.so')
+        asound.snd_lib_error_set_handler(c_error_handler)
+        yield
+        asound.snd_lib_error_set_handler(None)
+    except OSError:
+        yield
 
 def play(data, rate=44100, suppress=True):
     """
