@@ -1,8 +1,7 @@
-import sys
-sys.path.append('..')
+from __future__ import absolute_import
 
 import numpy
-from dspy import Factorization
+from .. import Factorization
 
 
 def test_nmf():

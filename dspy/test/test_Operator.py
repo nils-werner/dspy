@@ -1,7 +1,6 @@
-import sys
-sys.path.append('..')
+from __future__ import absolute_import
 
-from dspy import Operator
+from .. import Operator
 import numpy
 
 

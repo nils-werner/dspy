@@ -1,8 +1,7 @@
-import sys
-sys.path.append('..')
+from __future__ import absolute_import
 
-from dspy import Predictor
-from dspy import Statistic
+from .. import Predictor
+from .. import Statistic
 import scipy
 import numpy
 import scipy.signal

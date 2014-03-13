@@ -1,9 +1,8 @@
-import sys
-sys.path.append('..')
+from __future__ import absolute_import
 
 import tempfile
 import os
-from dspy import File
+from .. import File
 import numpy
 
 here = os.path.dirname(__file__)

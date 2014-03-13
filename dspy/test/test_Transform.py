@@ -1,9 +1,8 @@
-import sys
-sys.path.append('..')
+from __future__ import absolute_import
 
-from dspy import Transform
+from .. import Transform
+from .. import File
 
-from dspy import File
 import scipy
 import numpy
 import os

@@ -1,4 +1,3 @@
-import sys
-sys.path.append('..')
+from __future__ import absolute_import
 
-from dspy import Debug
+from .. import Debug
