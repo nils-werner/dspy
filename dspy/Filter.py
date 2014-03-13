@@ -12,6 +12,7 @@ import scipy.signal
 import numpy
 from . import Transform
 
+
 def lowpass(data, cutoff, fs, coeffs=61, window='hanning', unshift=False):
     """
     Filter a signal with a lowpass
@@ -37,13 +38,15 @@ def lowpass(data, cutoff, fs, coeffs=61, window='hanning', unshift=False):
         The filtered signal
 
     """
-    taps = scipy.signal.firwin(coeffs, cutoff/(float(fs)/2.0), window=window)
+    taps = scipy.signal.firwin(coeffs,
+                               cutoff / (float(fs) / 2.0), window=window)
     data = scipy.signal.lfilter(taps, 1.0, data)
 
     if unshift is True:
         return numpy.roll(data, -coeffs // 2)
     else:
         return data
+
 
 def highpass(data, cutoff, fs, coeffs=61, window='hanning', unshift=False):
     """
@@ -70,15 +73,17 @@ def highpass(data, cutoff, fs, coeffs=61, window='hanning', unshift=False):
         The filtered signal
 
     """
-    taps = scipy.signal.firwin(coeffs, cutoff/(float(fs)/2.0), window=window)
+    taps = scipy.signal.firwin(coeffs,
+                               cutoff / (float(fs) / 2.0), window=window)
     taps = -taps
-    taps[coeffs/2] = taps[coeffs/2] + 1
+    taps[coeffs / 2] = taps[coeffs / 2] + 1
     data = scipy.signal.lfilter(taps, 1.0, data)
 
     if unshift is True:
         return numpy.roll(data, -coeffs // 2)
     else:
         return data
+
 
 def bandpass(data, cutoff_low, cutoff_high, fs, order=9, **kwargs):
     """
@@ -107,8 +112,12 @@ def bandpass(data, cutoff_low, cutoff_high, fs, order=9, **kwargs):
         The filtered signal
 
     """
-    b,a = scipy.signal.butter(order, [cutoff_low/(float(fs)/2.0), cutoff_high/(float(fs)/2.0)], btype='band')
-    return scipy.signal.lfilter(b,a,data)
+    b, a = scipy.signal.butter(
+        order,
+        [cutoff_low / (float(fs) / 2.0), cutoff_high / (float(fs) / 2.0)],
+        btype='band')
+    return scipy.signal.lfilter(b, a, data)
+
 
 def medianlimiter(data, size=11, weight=1):
     """
@@ -133,7 +142,14 @@ def medianlimiter(data, size=11, weight=1):
         The filtered signal.
 
     """
-    return data / numpy.abs(data) * numpy.minimum(numpy.abs(data), weight*numpy.median(Transform.slidingwindow(numpy.abs(data), size=size), axis=1))
+    return data / numpy.abs(data) * numpy.minimum(
+        numpy.abs(data),
+        weight * numpy.median(
+            Transform.slidingwindow(numpy.abs(data), size=size),
+            axis=1
+        )
+    )
+
 
 def localaveragecompensation(data, size=11):
     """
@@ -156,7 +172,11 @@ def localaveragecompensation(data, size=11):
         The filtered signal.
 
     """
-    return data - numpy.average(Transform.slidingwindow(numpy.abs(data), size=size), axis=1)
+    return data - numpy.average(
+        Transform.slidingwindow(numpy.abs(data), size=size),
+        axis=1
+    )
+
 
 def resample(data, datafs, targetfs):
     """
@@ -177,4 +197,7 @@ def resample(data, datafs, targetfs):
         The resampled signal.
 
     """
-    return scipy.signal.resample(data, int((len(data) / float(datafs)) * float(targetfs)))
+    return scipy.signal.resample(
+        data,
+        int((len(data) / float(datafs)) * float(targetfs))
+    )

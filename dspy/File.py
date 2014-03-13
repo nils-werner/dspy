@@ -12,6 +12,7 @@ import scipy.io.wavfile as wav
 import numpy
 import warnings
 
+
 def wavread(filename):
     """
     Return the sample rate (in samples/sec) and data from a WAV file
@@ -38,14 +39,15 @@ def wavread(filename):
     """
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        rate,data = wav.read(filename)
+        rate, data = wav.read(filename)
 
     try:
         maxv = numpy.finfo(data.dtype).max
     except:
         maxv = numpy.iinfo(data.dtype).max
 
-    return (rate,data.astype('float') / maxv)
+    return (rate, data.astype('float') / maxv)
+
 
 def wavwrite(filename, rate, data):
     """

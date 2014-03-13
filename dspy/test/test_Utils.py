@@ -1,16 +1,15 @@
-import sys
-sys.path.append('..')
+from __future__ import absolute_import
 
-from dspy import Utils
+from .. import Utils
 import argparse
-import scipy, numpy
-from pylab import *
+
 
 def test_defaultopts():
     argv = ['-n', 'filename.wav']
     parser = argparse.ArgumentParser()
     Utils.defaultopts(parser)
     args = parser.parse_args(argv)
+
 
 def test_powof2():
     assert Utils.powof2(16)

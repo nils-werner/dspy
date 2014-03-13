@@ -5,7 +5,8 @@ Functions
 ---------
 `stft`: Calculate the short time fourier transform of a signal chunk
 
-`istft`: Calculate the inverse short time fourier transform of a spectrogram line
+`istft`: Calculate the inverse short time fourier transform of a
+         spectrogram line
 
 `spectrogram`: Calculate the complete spectrogram of a signal
 
@@ -13,9 +14,13 @@ Functions
 
 """
 from .. import Window
-import scipy, numpy
+from . import bins
+from . import scale
+import scipy
+import numpy
 import math
 import scipy.interpolate
+
 
 def stft(data, windowed=True, halved=True, padding=0):
     """
@@ -50,9 +55,10 @@ def stft(data, windowed=True, halved=True, padding=0):
     result = scipy.fft(data)
 
     if(halved):
-        result = result[0:result.size/2+1]
+        result = result[0:result.size / 2 + 1]
 
     return result
+
 
 def istft(data, windowed=True, halved=True, padding=0):
     """
@@ -84,7 +90,7 @@ def istft(data, windowed=True, halved=True, padding=0):
     output = scipy.ifft(data)
 
     if(padding):
-        output = output[0:-(len(data) * padding/(padding+1))]
+        output = output[0:-(len(data) * padding / (padding + 1))]
 
     if(windowed):
         output = Window.window(output)
@@ -93,6 +99,7 @@ def istft(data, windowed=True, halved=True, padding=0):
 
 fft = stft
 ifft = istft
+
 
 def spectrogram(data, framelength=1024, overlap=2, transform=None, **kwargs):
     """
@@ -124,16 +131,19 @@ def spectrogram(data, framelength=1024, overlap=2, transform=None, **kwargs):
     if transform is None:
         transform = stft
 
-    values = list(enumerate(range(0, len(data)-framelength, framelength//overlap)))
-    for j,i in values:
-        sig = transform(data[i:i+framelength], **kwargs) / (overlap//2)
+    values = list(enumerate(
+        range(0, len(data) - framelength, framelength // overlap)
+    ))
+    for j, i in values:
+        sig = transform(data[i:i + framelength], **kwargs) / (overlap // 2)
 
         if(i == 0):
             output = numpy.zeros((len(values), sig.shape[0]), dtype=sig.dtype)
 
-        output[j,:] = sig
+        output[j, :] = sig
 
     return output
+
 
 def ispectrogram(data, framelength=1024, overlap=2, transform=None, **kwargs):
     """
@@ -168,14 +178,17 @@ def ispectrogram(data, framelength=1024, overlap=2, transform=None, **kwargs):
     i = 0
     values = range(0, data.shape[0])
     for j in values:
-        sig = transform(data[j,:], **kwargs)
+        sig = transform(data[j, :], **kwargs)
 
         if(i == 0):
-            output = numpy.zeros(framelength + (len(values) - 1) * framelength//overlap, dtype=sig.dtype)
+            output = numpy.zeros(
+                framelength + (len(values) - 1) * framelength // overlap,
+                dtype=sig.dtype
+            )
 
-        output[i:i+framelength] += sig
+        output[i:i + framelength] += sig
 
-        i += framelength//overlap
+        i += framelength // overlap
 
     return output
 
@@ -205,7 +218,9 @@ def constantQ(data, sf, bands=48, minf=50.0, oversampling=1, bwfactor=8.0):
         A 2D matrix consisting of the transformed signal.
 
     """
-    numBands = int(math.floor(math.log(sf/minf/2.0)/math.log(2.0)*bands));
+    numBands = int(
+        math.floor(math.log(sf / minf / 2.0) / math.log(2.0) * bands)
+    )
 
     filterLength = numpy.zeros(numBands, dtype=int)
     bufferIndex = numpy.zeros(numBands, dtype=int)
@@ -213,23 +228,29 @@ def constantQ(data, sf, bands=48, minf=50.0, oversampling=1, bwfactor=8.0):
     pFactor = numpy.ones((numBands, 3), dtype=complex)
     out = numpy.zeros((numBands, 3), dtype=complex)
 
-    relBandwidth = bwfactor * (2.0 ** (1.0/bands) - 1.0);
+    relBandwidth = bwfactor * (2.0 ** (1.0 / bands) - 1.0)
 
-    fCenter = minf * (2.0 ** (numpy.arange(0,numBands)/bands))
-    bandwidth = fCenter*relBandwidth
+    fCenter = minf * (2.0 ** (numpy.arange(0, numBands) / bands))
+    bandwidth = fCenter * relBandwidth
 
-    filterLength = numpy.floor(2.0*sf/bandwidth).astype(int)
+    filterLength = numpy.floor(2.0 * sf / bandwidth).astype(int)
 
-    exp[:,0] = numpy.exp(-1j*2.0*numpy.pi*fCenter/sf)
-    exp[:,1] = numpy.exp(-1j*2.0*numpy.pi*(fCenter-bandwidth/2.0)/sf)
-    exp[:,2] = numpy.exp(-1j*2.0*numpy.pi*(fCenter+bandwidth/2.0)/sf)
+    exp[:, 0] = numpy.exp(-1j * 2.0 * numpy.pi * fCenter / sf)
+    exp[:, 1] = numpy.exp(
+        -1j * 2.0 * numpy.pi * (fCenter - bandwidth / 2.0) / sf
+    )
+    exp[:, 2] = numpy.exp(
+        -1j * 2.0 * numpy.pi * (fCenter + bandwidth / 2.0) / sf
+    )
 
-    frameLength = int(math.floor(2.0*sf/numpy.max(bandwidth)/float(oversampling)))
+    frameLength = int(
+        math.floor(2.0 * sf / numpy.max(bandwidth) / float(oversampling))
+    )
 
     buffer = numpy.zeros((numBands, numpy.max(filterLength), 3), dtype=complex)
 
     numFrames = data.shape[0] // frameLength
-    plot = numpy.zeros((numFrames,numBands));
+    plot = numpy.zeros((numFrames, numBands))
 
     allRows = numpy.arange(numBands)
 
@@ -237,18 +258,26 @@ def constantQ(data, sf, bands=48, minf=50.0, oversampling=1, bwfactor=8.0):
         for n in range(0, frameLength):
             x = data[frame * frameLength + n]
 
-            xMod = x*pFactor
-            out += xMod-buffer[allRows,bufferIndex,:]
-            buffer[allRows,bufferIndex,:] = xMod
+            xMod = x * pFactor
+            out += xMod - buffer[allRows, bufferIndex, :]
+            buffer[allRows, bufferIndex, :] = xMod
 
-            pFactor *= exp          # for long signals, these factors might have to be normalized 
-                                    # in order to avoid magnitudes deviating from 1 by numerical inaccuracies
+            pFactor *= exp
+                # for long signals, these factors might have to be normalized
+                # in order to avoid magnitudes deviating from 1 by numerical
+                # inaccuracies
 
             bufferIndex += 1
             bufferIndex %= filterLength
 
-        # the weighted sum of the phase corrected three outputs gives the final output
-        plot[frame,:] = numpy.abs(numpy.sum((numpy.array([1.0, -0.5, -0.5]) * out[:,:]) * pFactor[:,:].conjugate(), axis=1))
+        # the weighted sum of the phase corrected three outputs gives the final
+        # output
+        plot[frame, :] = numpy.abs(
+            numpy.sum(
+                (numpy.array([1.0, -0.5, -0.5]) * out[:, :]) *
+                pFactor[:, :].conjugate(), axis=1
+            )
+        )
 
     return plot
 
@@ -264,7 +293,7 @@ def slidingwindow(data, size=11, padded=True):
     size : int
         The sliding window size
     padding : boolear
-        Switch for turning on signal padding by mirroring 
+        Switch for turning on signal padding by mirroring
         on either side. Defaults to True.
 
     Returns
@@ -278,21 +307,25 @@ def slidingwindow(data, size=11, padded=True):
 
     a = numpy.array([1, 2, 3, 4])
     slidingwindow(a, size=3)
-    >>> numpy.array([1, 1, 2],
-                    [1, 2, 3],
-                    [2, 3, 4],
-                    [3, 4, 4])
+    # >>> numpy.array([1, 1, 2],
+    #                 [1, 2, 3],
+    #                 [2, 3, 4],
+    #                 [3, 4, 4])
 
     """
-    if(size%2 == 0):
+    if(size % 2 == 0):
         size += 1
-    halfsize = numpy.floor(size/2)
-    if(padded == True):
-        tmp = numpy.hstack(( data[halfsize-1::-1], data, data[:-halfsize-1:-1]))
+    halfsize = numpy.floor(size / 2)
+    if padded:
+        tmp = numpy.hstack(
+            (data[halfsize - 1::-1], data, data[:-halfsize - 1:-1])
+        )
     else:
         tmp = data
 
     strides = (tmp.itemsize, tmp.itemsize)
-    shape = (1 + (tmp.nbytes - size*tmp.itemsize)/strides[0], size)
+    shape = (1 + (tmp.nbytes - size * tmp.itemsize) / strides[0], size)
 
-    return numpy.lib.stride_tricks.as_strided(tmp, shape=shape, strides=strides)
+    return numpy.lib.stride_tricks.as_strided(
+        tmp, shape=shape, strides=strides
+    )

@@ -15,6 +15,7 @@ import numpy
 import numpy.random
 from . import Operator
 
+
 def white(data, snr=3.0):
     """
     Add white noise to signal.
@@ -32,16 +33,17 @@ def white(data, snr=3.0):
         Output signal
 
     """
-    avg_energy = Operator.rms(data)**2
+    avg_energy = Operator.rms(data) ** 2
     snr_linear = Operator.idb(snr)
-    noise_variance = avg_energy/(2*snr_linear)
+    noise_variance = avg_energy / (2 * snr_linear)
 
     if data.dtype is complex:
-        noise = numpy.sqrt(noise_variance) * numpy.random.randn(len(data)) * (1+1j)
+        noise = numpy.sqrt(noise_variance) * numpy.random.randn(len(data)) * (1 + 1j)
     else:
         noise = numpy.sqrt(2*noise_variance) * numpy.random.randn(len(data))
 
     return data + noise
+
 
 def pepper(data, probability=0.1, minv=None, maxv=None):
     """
@@ -76,8 +78,8 @@ def pepper(data, probability=0.1, minv=None, maxv=None):
         except:
             minv = numpy.iinfo(data.dtype).min
 
-    mask = numpy.random.randint(0, 2/probability+1, size=data.shape)
+    mask = numpy.random.randint(0, 2 / probability + 1, size=data.shape)
     data = data.copy()
     data[mask == 0] = minv
-    data[mask == 2/probability] = maxv
+    data[mask == 2 / probability] = maxv
     return data

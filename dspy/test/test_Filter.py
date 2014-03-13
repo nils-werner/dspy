@@ -1,14 +1,11 @@
-import sys
-sys.path.append('..')
+from __future__ import absolute_import
 
-import os
-from dspy import Filter
-import scipy, numpy
-from pylab import *
+from .. import Filter
+import numpy
+
 
 def test_medianlimiter():
-    original = numpy.array([ 3, 4, 1+1j, 1, 8, 7, 1, 2, 6, 1, 1])
-    output   = numpy.array([ 3, 3, 1+1j, 1, 7, 7, 1, 2, 2, 1,1])
+    output = numpy.array([3, 3, 1 + 1j, 1, 7, 7, 1, 2, 2, 1, 1])
 
     filtered = Filter.medianlimiter(output, 3)
 

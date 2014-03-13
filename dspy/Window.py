@@ -10,6 +10,7 @@ Functions
 """
 import numpy
 
+
 def halfsin(M):
     """
     Gernerate a halfsin/halfcosine window of given length
@@ -26,6 +27,7 @@ def halfsin(M):
 
     """
     return numpy.sin(numpy.pi / M * (numpy.arange(0, M) + .5))
+
 
 def window(data):
     """
