@@ -1,10 +1,9 @@
 import sys
 sys.path.append('..')
 
-import os
 from dspy import Operator
-import scipy, numpy
-from pylab import *
+import numpy
+
 
 def tests_teager():
     original = numpy.arange(10)

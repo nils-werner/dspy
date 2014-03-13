@@ -6,8 +6,8 @@ Functions
 `nmf`: Non-negative matrix factorization
 
 """
-import numpy
 import pymf
+
 
 def nmf(data, iterations=None, num_bases=None):
     """
@@ -33,7 +33,7 @@ def nmf(data, iterations=None, num_bases=None):
 
     """
     if num_bases is None:
-        num_bases = data.shape[1]-1
+        num_bases = data.shape[1] - 1
 
     if iterations is None:
         iterations = num_bases // 2

@@ -3,14 +3,16 @@ Module to calculate FFT binsizes
 
 Functions
 ---------
-`extent`: Calculate a vector of all frequency bins for given framelength and sampling rate
+`extent`: Calculate a vector of all frequency bins for given
+          framelength and sampling rate
 
 `width`: Calculate framelength for desired bin width
 
 `number`: Calculate framelength for desired number of bins
 
 """
-import scipy, numpy
+import numpy
+
 
 def extent(framelength, rate, halved=True):
     """
@@ -31,9 +33,15 @@ def extent(framelength, rate, halved=True):
 
     """
     if(halved):
-        return numpy.arange(0,framelength/2+1) * rate/framelength
+        return numpy.arange(0, framelength / 2 + 1) * rate / framelength
     else:
-        return numpy.hstack((numpy.arange(0,framelength/2+1), numpy.arange(framelength/2+1,0,-1))) * rate/framelength
+        return numpy.hstack(
+            (
+                numpy.arange(0, framelength / 2 + 1),
+                numpy.arange(framelength / 2 + 1, 0, -1)
+            )
+        ) * rate / framelength
+
 
 def width(frequency, rate):
     """
@@ -52,7 +60,8 @@ def width(frequency, rate):
         The resulting framelength
 
     """
-    return rate/frequency
+    return rate / frequency
+
 
 def number(number):
     """

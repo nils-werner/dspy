@@ -3,12 +3,14 @@ Module for several utility methods
 
 Functions
 ---------
-`defaultopts`: Attaches regularily used command line options to an ArgParser instance
+`defaultopts`: Attaches regularily used command
+               line options to an ArgParser instance
 
 `powof2`: Checks if a number is a power of two
 
 """
 import argparse
+
 
 def defaultopts(parser):
     """
@@ -21,13 +23,29 @@ def defaultopts(parser):
 
     """
     parser.add_argument('filename', help='The audio file to be processed')
-    parser.add_argument('-n', action="store_false", help="Disable graph output", dest="display")
-    parser.add_argument('-d', '--figure', metavar="FILENAME", help="Save figure to file")
+    parser.add_argument(
+        '-n',
+        action="store_false",
+        help="Disable graph output", dest="display")
+    parser.add_argument(
+        '-d',
+        '--figure',
+        metavar="FILENAME",
+        help="Save figure to file")
 
-    parser.add_argument('-f', '--framelength', type=powof2, default=1024, metavar="SAMPLES", help="Set FFT framelength")
-    parser.add_argument('--overlap', type=powof2, default=2, metavar="FRAMELENGTH/X", help="Set relative FFT frame overlap")
+    parser.add_argument(
+        '-f', '--framelength',
+        type=powof2, default=1024, metavar="SAMPLES",
+        help="Set FFT framelength")
+    parser.add_argument(
+        '--overlap',
+        type=powof2, default=2, metavar="FRAMELENGTH/X",
+        help="Set relative FFT frame overlap")
 
-    parser.add_argument('--noise', type=float, default=None, metavar="SNR", help="Add white noise to signal for given SNR.")
+    parser.add_argument(
+        '--noise',
+        type=float, default=None, metavar="SNR",
+        help="Add white noise to signal for given SNR.")
 
 
 def powof2(num):
@@ -47,7 +65,8 @@ def powof2(num):
     Notes
     -----
 
-     * Raises an argparse.ArgumentTypeError when the number is not a power of two.
+     * Raises an argparse.ArgumentTypeError when the number
+       is not a power of two.
 
     """
     num = int(num)

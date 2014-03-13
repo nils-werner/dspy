@@ -1,5 +1,6 @@
 import numpy
 
+
 def delay(data, delay):
     """
     Shift a signal as written in mathematical notation.
@@ -30,9 +31,10 @@ def delay(data, delay):
     if delay == 0:
         return data
     elif delay > 0:
-        return numpy.lib.pad(data, (0,delay), 'edge')[delay:]
+        return numpy.lib.pad(data, (0, delay), 'edge')[delay:]
     else:
-        return numpy.lib.pad(data, (-delay,0), 'edge')[:delay]
+        return numpy.lib.pad(data, (-delay, 0), 'edge')[:delay]
+
 
 def teager(x):
     """
@@ -57,8 +59,9 @@ def teager(x):
     if numpy.iscomplex(x).any():
         e = teager(numpy.real(x)) + teager(numpy.imag(x))
     else:
-        e = x[1:-1]**2 - x[2:]*x[:-2]
+        e = x[1:-1] ** 2 - x[2:] * x[:-2]
     return numpy.hstack((e[0], e, e[-1]))
+
 
 def rms(x, axis=None):
     """
@@ -75,7 +78,8 @@ def rms(x, axis=None):
         The RMS value
 
     """
-    return numpy.sqrt(numpy.mean(x**2, axis=axis))
+    return numpy.sqrt(numpy.mean(x ** 2, axis=axis))
+
 
 def snr(signal, noise):
     """
@@ -96,6 +100,7 @@ def snr(signal, noise):
     """
     return db(rms(signal) / rms(noise), energy=True)
 
+
 def db(x, energy=False):
     """
     Calculate the dB value of a ratio
@@ -114,9 +119,10 @@ def db(x, energy=False):
 
     """
     if energy is False:
-        return 10.0*numpy.log10(x)
+        return 10.0 * numpy.log10(x)
     else:
-        return 20.0*numpy.log10(x)
+        return 20.0 * numpy.log10(x)
+
 
 def idb(x, energy=False):
     """

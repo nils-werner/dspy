@@ -10,6 +10,7 @@ Functions
 """
 import numpy
 
+
 def autocorr(x, **kwargs):
     """
     Return the autocorrelation function of a signal
@@ -32,7 +33,8 @@ def autocorr(x, **kwargs):
     kwargs.setdefault('mode', 'full')
 
     result = numpy.correlate(x, x, **kwargs)
-    return result[result.size/2:]
+    return result[result.size / 2:]
+
 
 def quadraticdiff(a, b):
     """
@@ -51,4 +53,4 @@ def quadraticdiff(a, b):
         The quadratic difference between the two signals
 
     """
-    return numpy.sum((a - b)**2)
+    return numpy.sum((a - b) ** 2)

@@ -14,9 +14,11 @@ Functions
 `save`: Save the figure to file.
 
 """
-import numpy, scipy
+import numpy
+import scipy
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
+
 
 class Figure():
     def __init__(self):
@@ -47,7 +49,8 @@ class Figure():
         vmax : float
             The maximum value. Defaults to len(data).
         norm : method
-            The normalization function. Defaults to `matplotlib.colors.LogNorm()`.
+            The normalization function.
+            Defaults to `matplotlib.colors.LogNorm()`.
         origin : string
             The origin of the plot. Defaults to 'lower'.
         aspect : string
