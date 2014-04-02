@@ -282,7 +282,7 @@ def constantQ(data, sf, bands=48, minf=50.0, oversampling=1, bwfactor=8.0):
     return plot
 
 
-def slidingwindow(data, size=11, padded=True):
+def slidingwindow(data, size=11, stepsize=1, padded=True):
     """
     Calculate a sliding window over a signal
 
@@ -323,7 +323,7 @@ def slidingwindow(data, size=11, padded=True):
     else:
         tmp = data
 
-    strides = (tmp.itemsize, tmp.itemsize)
+    strides = (stepsize*tmp.itemsize, tmp.itemsize)
     shape = (1 + (tmp.nbytes - size * tmp.itemsize) / strides[0], size)
 
     return numpy.lib.stride_tricks.as_strided(
