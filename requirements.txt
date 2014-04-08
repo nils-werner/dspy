@@ -6,3 +6,4 @@ spectrum
 Nose
 pyaudio
 pymf
+scikits.audiolab
