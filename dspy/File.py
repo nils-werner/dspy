@@ -12,7 +12,8 @@ import scipy.io.wavfile as wav
 import numpy
 import warnings
 import sys
-
+import types
+from scikits.audiolab import Format, Sndfile
 
 def wavread(filename):
     """
@@ -74,12 +75,12 @@ def wavwrite(filename, rate, data):
     wav.write(filename, rate, (data * maxv).astype('int16'))
 
 
-import types
-from scikits.audiolab import Format, Sndfile
+class Stream(object):
+    """
+    Interface for streaming audio files through libsndfile
+    """
 
-class File(object):
-
-    def __init__(self, filename, write=False, rate=None, channels=None):
+    def __init__(self, filename, write=False, format='wav', rate=None, channels=None):
         """
         Open audiofile for writing or reading
 
@@ -105,17 +106,18 @@ class File(object):
         if filename is sys.stdin:
             filename = '-'
 
-        if write == True and (rate is None or channels is None):
-            raise ValueError('You must provide sampling rate and number of channels for writing file.')
+        if write is True and (rate is None or channels is None):
+            raise ValueError('You must provide sampling rate and '
+                             'number of channels for writing file.')
 
-        if write == False:
+        if write is False:
             self.f = Sndfile(filename, 'r')
 
             self.channels = self.f.channels
             self.rate = self.f.samplerate
 
         else:
-            format = Format('wav')
+            format = Format(format)
             self.f = Sndfile(filename, 'w', format, channels, rate)
 
             self.channels = channels
@@ -158,7 +160,7 @@ class File(object):
         """
         while True:
             try:
-                yield self.f.read_frames(framesize, dtype=numpy.float32)
+                yield self.f.read_frames(framesize)
             except RuntimeError:
                 self.close()
                 raise StopIteration
