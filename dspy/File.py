@@ -12,8 +12,6 @@ import scipy.io.wavfile as wav
 import numpy
 import warnings
 import sys
-import types
-from scikits.audiolab import Format, Sndfile
 
 def wavread(filename):
     """
@@ -103,6 +101,11 @@ class Stream(object):
           floats, normalized between -1 and 1.
 
         """
+        try:
+            from scikits.audiolab import Format, Sndfile
+        except:
+            raise RuntimeError('You must have scikits.audiolab installed')
+
         if filename is sys.stdin:
             filename = '-'
 
@@ -134,6 +137,8 @@ class Stream(object):
             Generator for automated writing.
 
         """
+        import types
+
         if isinstance(data, types.GeneratorType):
             for i in data:
                 self.f.write_frames(i)
