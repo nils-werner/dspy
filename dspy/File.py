@@ -11,6 +11,7 @@ Functions
 import scipy.io.wavfile as wav
 import numpy
 import warnings
+import sys
 
 
 def wavread(filename):
@@ -71,3 +72,53 @@ def wavwrite(filename, rate, data):
     """
     maxv = numpy.iinfo(numpy.int16).max
     wav.write(filename, rate, (data * maxv).astype('int16'))
+
+
+import types
+from scikits.audiolab import Format, Sndfile
+
+class File(object):
+
+    def __init__(self, filename, mode='r', rate=None, channels=None):
+        if filename is sys.stdin:
+            filename = '-'
+
+        if mode == 'w' and (rate is None or channels is None):
+            raise ValueError('You must provide sampling rate and number of channels for writing file.')
+
+        if mode not in ('r','w'):
+            raise ValueError('You must provide mode w for writing or r for reading file.')
+
+        if mode == 'r':
+            self.f = Sndfile(filename, 'r')
+
+            self.channels = self.f.channels
+            self.rate = self.f.samplerate
+
+        else:
+            format = Format('wav')
+            self.f = Sndfile(filename, 'w', format, channels, rate)
+
+            self.channels = channels
+            self.rate = rate
+
+    def write(self, data):
+        if isinstance(data, types.GeneratorType):
+            for i in data:
+                self.f.write_frames(i)
+
+            self.close()
+
+        else:
+            self.f.write_frames(data)
+
+    def read(self, framesize=1024):
+        while True:
+            try:
+                yield self.f.read_frames(framesize, dtype=numpy.float32)
+            except RuntimeError:
+                self.close()
+                raise StopIteration
+
+    def close(self):
+        self.f.close()
