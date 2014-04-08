@@ -1,6 +1,5 @@
 SciPy
 NumPy
-IPython
 matplotlib
 spectrum
 Nose

@@ -27,9 +27,7 @@ setup(
     install_requires=[
         'SciPy>=0.9.0',
         'NumPy>=1.6.0',
-        'IPython>=0.10.0',
         'matplotlib>=1.0.0',
-        'ipython>=0.12.0',
         'pyaudio>=0.2.4',
         'spectrum>=0.5.6',
         'pymf>=0.1.9',
