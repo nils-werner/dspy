@@ -24,7 +24,8 @@ class SphinxCommandProxy(Command):
 
         # Build docs from docstrings in *.py files
         sphinx.apidoc.main(
-            ['', '-o', os.path.join('docs', 'source'), src_dir])
+            ['',
+             '-o', os.path.join('docs', 'source', 'api'), src_dir])
 
         # Build the doc sources
         sphinx.main(['', '-c', 'docs',
