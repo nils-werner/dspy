@@ -5,8 +5,6 @@ from setuptools import setup, find_packages, Command
 import io
 import os
 
-here = os.path.abspath(os.path.dirname(__file__))
-
 
 class SphinxCommandProxy(Command):
     user_options = []
@@ -21,18 +19,20 @@ class SphinxCommandProxy(Command):
     def run(self):
         # metadata contains information supplied in setup()
         metadata = self.distribution.metadata
-        # package_dir may be None, in that case use the current directory.
         src_dir = (self.distribution.package_dir or {'': ''})['']
         src_dir = os.path.join(os.getcwd(),  src_dir)
-        # Run sphinx by calling the main method, '--full' also adds a conf.py
-        sphinx.apidoc.main(
-            ['', '--full', '-H', metadata.name, '-A', metadata.author,
-             '-V', metadata.version, '-R', metadata.version,
-             '-o', os.path.join('docs', 'source'), src_dir])
-        # build the doc sources
-        sphinx.main(['', '-c', 'docs', os.path.join('docs', 'source'),
-                     os.path.join('docs', 'build')])
 
+        # Build docs from docstrings in *.py files
+        sphinx.apidoc.main(
+            ['', '-o', os.path.join('docs', 'source'), src_dir])
+
+        # Build the doc sources
+        sphinx.main(['', '-c', 'docs',
+                     '-D', 'project=' + metadata.name,
+                     '-D', 'version=' + metadata.version,
+                     '-D', 'release=' + metadata.version,
+                     os.path.join('docs', 'source'),
+                     os.path.join('docs', 'build')])
 
 
 def read(*filenames, **kwargs):

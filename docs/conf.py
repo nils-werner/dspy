@@ -51,7 +51,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'dspy'
-copyright = '2014, Nils Werner'
+copyright = '2014, International AudioLabs Erlangen'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -74,7 +74,7 @@ release = '1.0'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['_build']
+exclude_patterns = ['_build','**test**','**setup**']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
@@ -204,7 +204,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
   ('index', 'dspy.tex', 'dspy Documentation',
-   'Nils Werner', 'manual'),
+   'International AudioLabs Erlangen', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -234,7 +234,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'dspy', 'dspy Documentation',
-     ['Nils Werner'], 1)
+     ['International AudioLabs Erlangen'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -248,7 +248,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'dspy', 'dspy Documentation',
-   'Nils Werner', 'dspy', 'One line description of project.',
+   'International AudioLabs Erlangen', 'dspy', 'One line description of project.',
    'Miscellaneous'),
 ]
 
