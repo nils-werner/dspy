@@ -3,3 +3,5 @@ dspy.egg-info
 *.pyo
 dist
 build
+docs/build
+docs/source

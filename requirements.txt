@@ -6,3 +6,5 @@ Nose
 pyaudio
 pymf
 scikits.audiolab
+sphinx
+sphinx_rtd_theme
