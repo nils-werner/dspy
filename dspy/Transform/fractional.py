@@ -9,7 +9,7 @@ import scipy
 import scipy.signal
 
 
-def ffft(f, a):
+def frft(f, a):
     """
     Calculate the fast fractional fourier transform.
 
