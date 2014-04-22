@@ -33,7 +33,8 @@ def levinson(correlation, order):
     * The first coefficient, 1, is left out.
 
     """
-    assert 0 < order, "order must be greater than zero"
+    if not order > 0:
+        raise ValueError("order must be greater than zero")
 
     coeffs, energy, reflectioncoeffs = spectrum.LEVINSON(correlation, order)
     energy /= correlation[0]
@@ -66,7 +67,8 @@ def burg(correlation, order):
     * The first coefficient, 1, is left out.
 
     """
-    assert 0 < order, "order must be greater than zero"
+    if not order > 0:
+        raise ValueError("order must be greater than zero")
 
     coeffs, energy, reflectioncoeffs = spectrum.arburg(correlation, order)
 
@@ -113,8 +115,10 @@ def rls(x, d, order=4, lamb=1.0):
     .. [2] : http://www.mathworks.de/de/help/dsp/ref/adaptfilt.rls.html
 
     """
-    assert 0 < lamb <= 1, "lambda must be between 0 and 1"
-    assert 0 < order, "order must be greater than zero"
+    if not 0 < lamb <= 1:
+        raise ValueError("lambda must be between 0 and 1")
+    if not order > 0:
+        raise ValueError("order must be greater than zero")
 
     w = numpy.zeros(order)
     e = numpy.zeros_like(x)
