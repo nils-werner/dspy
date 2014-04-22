@@ -28,7 +28,7 @@ def stft(data, windowed=True, halved=True, padding=0):
         spectrum. This additional data is not needed and can be
         removed. Defaults to True.
     padding : int
-        ZEro-pad signal with x times the number of samples.
+        Zero-pad signal with x times the number of samples.
 
     Returns
     -------
@@ -91,7 +91,7 @@ fft = stft
 ifft = istft
 
 
-def spectrogram(data, framelength=1024, overlap=2, transform=None, **kwargs):
+def spectrogram(data, framelength=1024, hopsize=None, overlap=None, transform=None, **kwargs):
     """
     Calculate the spectrogram of a signal
 
@@ -101,6 +101,9 @@ def spectrogram(data, framelength=1024, overlap=2, transform=None, **kwargs):
         The signal to be calculated.
     framelength : int
         The signal frame length. Defaults to 1024.
+    hopsize : int
+        The signal frame hopsize. Defaults to None. Setting this
+        value will override `overlap`.
     overlap : int
         The signal frame overlap coefficient. Value x means
         1/x overlap. Defaults to 2.
@@ -121,11 +124,17 @@ def spectrogram(data, framelength=1024, overlap=2, transform=None, **kwargs):
     if transform is None:
         transform = stft
 
+    if overlap is None:
+        overlap = 2
+
+    if hopsize is None:
+        hopsize = framelength // overlap
+
     values = list(enumerate(
-        range(0, len(data) - framelength, framelength // overlap)
+        range(0, len(data) - framelength, hopsize)
     ))
     for j, i in values:
-        sig = transform(data[i:i + framelength], **kwargs) / (overlap // 2)
+        sig = transform(data[i:i + framelength], **kwargs) / (framelength // hopsize // 2)
 
         if(i == 0):
             output = numpy.zeros((len(values), sig.shape[0]), dtype=sig.dtype)
@@ -135,7 +144,7 @@ def spectrogram(data, framelength=1024, overlap=2, transform=None, **kwargs):
     return output
 
 
-def ispectrogram(data, framelength=1024, overlap=2, transform=None, **kwargs):
+def ispectrogram(data, framelength=1024, hopsize=None, overlap=None, transform=None, **kwargs):
     """
     Calculate the inverse spectrogram of a signal
 
@@ -145,6 +154,9 @@ def ispectrogram(data, framelength=1024, overlap=2, transform=None, **kwargs):
         The spectrogram to be calculated.
     framelength : int
         The signal frame length. Defaults to 1024.
+    hopsize : int
+        The signal frame hopsize. Defaults to None. Setting this
+        value will override `overlap`.
     overlap : int
         The signal frame overlap coefficient. Value x means
         1/x overlap. Defaults to 2.
@@ -165,6 +177,12 @@ def ispectrogram(data, framelength=1024, overlap=2, transform=None, **kwargs):
     if transform is None:
         transform = istft
 
+    if overlap is None:
+        overlap = 2
+
+    if hopsize is None:
+        hopsize = framelength // overlap
+
     i = 0
     values = range(0, data.shape[0])
     for j in values:
@@ -172,13 +190,13 @@ def ispectrogram(data, framelength=1024, overlap=2, transform=None, **kwargs):
 
         if(i == 0):
             output = numpy.zeros(
-                framelength + (len(values) - 1) * framelength // overlap,
+                framelength + (len(values) - 1) * hopsize,
                 dtype=sig.dtype
             )
 
         output[i:i + framelength] += sig
 
-        i += framelength // overlap
+        i += hopsize
 
     return output
 
