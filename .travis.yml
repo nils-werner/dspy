@@ -6,6 +6,7 @@ virtualenv:
 before_install:
     - "sudo apt-get update -qq"
     - "sudo apt-get install -qq python-numpy python-scipy python-nose python-matplotlib python-pyaudio libasound2 libasound2-plugins libasound-dev pulseaudio alsa-base python-cvxopt"
+    - "pip install sphinx"
     - "sudo ldconfig"
     - "export DISPLAY=:99.0"
     - "sh -e /etc/init.d/xvfb start"

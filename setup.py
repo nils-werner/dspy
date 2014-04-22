@@ -1,6 +1,9 @@
 from __future__ import print_function
-import sphinx
-import sphinx.apidoc
+try:
+    import sphinx
+    import sphinx.apidoc
+except ImportError:
+    pass
 from setuptools import setup, find_packages, Command
 import io
 import os
@@ -20,7 +23,7 @@ class SphinxCommandProxy(Command):
         # metadata contains information supplied in setup()
         metadata = self.distribution.metadata
         src_dir = (self.distribution.package_dir or {'': ''})['']
-        src_dir = os.path.join(os.getcwd(),  src_dir)
+        src_dir = os.path.join(os.getcwd(), src_dir)
 
         # Build docs from docstrings in *.py files
         sphinx.apidoc.main(
