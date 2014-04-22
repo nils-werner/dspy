@@ -1,21 +1,11 @@
 """
 Module to transform signals
 
-Functions
----------
-`stft`: Calculate the short time fourier transform of a signal chunk
-
-`istft`: Calculate the inverse short time fourier transform of a
-         spectrogram line
-
-`spectrogram`: Calculate the complete spectrogram of a signal
-
-`ispectrogram`: Calculate the signal of a complete spectrogram
-
 """
 from .. import Window
 from . import bins
 from . import scale
+from . import fractional
 import scipy
 import numpy
 import math

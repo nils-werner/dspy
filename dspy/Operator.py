@@ -1,3 +1,7 @@
+"""
+General purpose operations such as RMS, db, SNR, teager etc.
+
+"""
 import numpy
 
 

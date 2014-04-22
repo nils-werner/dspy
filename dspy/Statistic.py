@@ -1,12 +1,6 @@
 """
 Module to calculate statistic information from a signal
 
-Functions
----------
-`autocorr`: Calculate the autocorrelation function of a signal
-
-`quadraticdiff`: Calculate the quadratic difference between two signals
-
 """
 import numpy
 

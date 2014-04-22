@@ -1,16 +1,6 @@
 """
 Module to generate and run signal predictors
 
-Functions
----------
-`levinson`: Generate predictor coefficients using the Levinson algorithm
-
-`burg`: Generate predictor coefficients using the Burg algorithm
-
-`rls`: Recursive Least Squares filter
-
-`predict`: Run an autoregressive linear predictor
-
 """
 import spectrum
 import scipy

@@ -1,3 +1,8 @@
+"""
+Module to do several scale transformations
+
+"""
+
 import scipy
 import numpy
 import scipy.interpolate

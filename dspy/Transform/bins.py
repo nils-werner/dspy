@@ -1,15 +1,6 @@
 """
 Module to calculate FFT binsizes
 
-Functions
----------
-`extent`: Calculate a vector of all frequency bins for given
-          framelength and sampling rate
-
-`width`: Calculate framelength for desired bin width
-
-`number`: Calculate framelength for desired number of bins
-
 """
 import numpy
 

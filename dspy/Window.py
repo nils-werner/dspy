@@ -1,12 +1,6 @@
 """
 Module to weigh a signal with a windowing function
 
-Functions
----------
-`halfsin`: Returns a simple halfsin window
-
-`window`: Weighs a signal with the halfsin window
-
 """
 import numpy
 

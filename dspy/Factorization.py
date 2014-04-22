@@ -1,10 +1,6 @@
 """
 Module to factorize matrices
 
-Functions
----------
-`nmf`: Non-negative matrix factorization
-
 """
 import pymf
 

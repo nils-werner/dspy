@@ -1,16 +1,7 @@
 """
 Module to add noise to numpy arrays
 
-Functions
----------
-`white`: Add white noise.
-
-`brown`: Add brown noise.
-
-`pepper`: Add salt/pepper noise.
-
 """
-
 import numpy
 import numpy.random
 from . import Operator

@@ -1,12 +1,6 @@
 """
 Module to filter audio signals using numpy arrays
 
-Functions
----------
-`lowpass`: Filter a given signal using a lowpass filter.
-
-`medianlimiter`: Find the minimum between a sliding median value and a sample.
-
 """
 import scipy.signal
 import numpy

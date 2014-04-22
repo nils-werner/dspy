@@ -1,10 +1,6 @@
 """
 Module to play audio signals using portaudio
 
-Functions
----------
-`play`: Play a signal.
-
 """
 import pyaudio
 import numpy
