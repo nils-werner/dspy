@@ -63,7 +63,6 @@ setup(
         'matplotlib>=1.0.0',
         'pyaudio>=0.2.4',
         'spectrum>=0.5.6',
-        'pymf>=0.1.9',
         'scikits.audiolab>=0.11.0',
         'sphinx',
         'sphinx_rtd_theme'
@@ -91,9 +90,6 @@ setup(
     extras_require={
         'testing': ['Nose'],
     },
-    dependency_links=[
-        "git+https://github.com/nils-werner/pymf.git#egg=pymf-0.1.9"
-    ],
     # Register custom commands
     cmdclass={
         'build_sphinx': SphinxCommandProxy

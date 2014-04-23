@@ -4,7 +4,6 @@ matplotlib
 spectrum
 Nose
 pyaudio
--e git+https://github.com/nils-werner/pymf.git#egg=pymf-0.1.9
 scikits.audiolab
 sphinx
 sphinx_rtd_theme
