@@ -65,6 +65,8 @@ setup(
         'spectrum>=0.5.6',
         'pymf>=0.1.9',
         'scikits.audiolab>=0.11.0',
+        'sphinx',
+        'sphinx_rtd_theme'
     ],
     author_email='nils.werner@gmail.com',
     description='Digital Signal Processing tools for Python',
